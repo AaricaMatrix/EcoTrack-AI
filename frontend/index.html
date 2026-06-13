@@ -2084,12 +2084,42 @@
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
-                  /* map formData to API schema */
+                  transport: {
+                    car_km_per_week: parseFloat(formData.carKm),
+                    car_fuel_type: formData.fuelType,
+                    flights_per_year: parseInt(formData.flights),
+                    public_transport_km_per_week: parseFloat(
+                      formData.transitKm,
+                    ),
+                  },
+                  home_energy: {
+                    electricity_kwh_per_month: parseFloat(formData.electricity),
+                    gas_units_per_month: parseFloat(formData.gas),
+                    num_people_in_home: parseInt(formData.people),
+                    renewable_energy_percent: parseFloat(formData.solar),
+                  },
+                  diet: {
+                    diet_type: formData.dietType,
+                    meat_meals_per_week: parseFloat(formData.meatMeals),
+                    food_waste_level: formData.wasteLevel,
+                  },
+                  shopping: {
+                    new_clothes_per_year: parseInt(formData.clothes),
+                    electronics_per_year: parseInt(formData.electronics),
+                    online_shopping_orders_per_month: parseFloat(
+                      formData.onlineOrders,
+                    ),
+                  },
+                  country: "IN",
                 }),
               },
             );
+            if (!res.ok) {
+              throw new Error("API error " + res.status);
+            }
             result = await res.json();
           } catch (e) {
+            console.warn("API failed, using local:", e);
             result = calcLocalFootprint(formData); // Fallback to local
           }
         }
