@@ -64,3 +64,12 @@ async def root():
 @app.get("/health", tags=["Health"])
 async def health():
     return {"status": "healthy"}
+
+@app.get("/api/test-env")
+async def test_env():
+    import os
+    gemini_key = os.getenv("GEMINI_API_KEY", "NOT SET")
+    return {
+        "gemini_key_set": gemini_key != "NOT SET",
+        "gemini_key_preview": gemini_key[:10] + "..." if gemini_key != "NOT SET" else "NOT SET"
+    }
