@@ -1,3 +1,12 @@
+---
+title: EcoTrack AI
+emoji: 🌿
+colorFrom: green
+colorTo: green
+sdk: docker
+pinned: false
+---
+
 # 🌿 EcoTrack AI : Carbon Intelligence Platform
 
 > AI-powered carbon footprint calculator with ML predictions, Groq AI insights, anomaly detection, AR product scanner, carbon offset marketplace, and community leaderboard.
@@ -9,26 +18,27 @@
 [![Tests](https://img.shields.io/badge/tests-43%20passing-brightgreen)](#testing)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow)](LICENSE)
 
-**Live Demo**: https://ecotracka-i.netlify.app
-**Backend API**: https://aaricacoding-ecotrack-ai.hf.space
+**🔗 Live Demo**: https://ecotracka-i.netlify.app
+**⚙️ Backend API**: https://aaricacoding-ecotrack-ai.hf.space
+**💻 GitHub**: https://github.com/Aaricacoding/EcoTrack-AI
 
 ---
 
 ## What It Does
 
-| Feature                   | Detail                                                                 |
-| ------------------------- | ---------------------------------------------------------------------- |
-| **4-Step Wizard**         | Transport · Home Energy · Diet · Shopping — under 2 minutes            |
-| **ML Forecast**           | Polynomial Ridge Regression — 6-month carbon trajectory                |
-| **Anomaly Detection**     | Isolation Forest detects unusual emission spikes in your history       |
-| **AI Insights**           | Groq LLaMA generates personalised narrative footprint analysis         |
-| **EcoBot**                | Multi-turn AI carbon coach; knows your exact footprint data            |
-| **AR Carbon Scanner**     | Point camera at any product barcode — instant CO₂ footprint overlay    |
-| **Offset Marketplace**    | 4 verified Indian carbon offset projects with real pricing             |
-| **Community Leaderboard** | Anonymous global ranking with footprint distribution chart             |
-| **Smart Dashboard**       | Donut chart · comparison bars vs global/India benchmarks · trend chart |
-| **Ranked Tips**           | Personalised actions sorted by CO₂ impact — highest savings first      |
-| **Secure Accounts**       | JWT + bcrypt authentication with rate limiting                         |
+| Feature                   | Detail                                                            |
+| ------------------------- | ----------------------------------------------------------------- |
+| **4-Step Carbon Wizard**  | Transport · Home Energy · Diet · Shopping — under 2 minutes       |
+| **ML Trend Forecast**     | Polynomial Ridge Regression — 6-month carbon trajectory           |
+| **Anomaly Detection**     | Isolation Forest detects unusual emission spikes in history       |
+| **AI Insights**           | Groq LLaMA generates personalised narrative footprint analysis    |
+| **EcoBot AI Coach**       | Multi-turn AI carbon coach — knows your exact footprint data      |
+| **AR Carbon Scanner**     | Point camera at product barcode — instant CO₂ footprint overlay   |
+| **Offset Marketplace**    | 4 verified Indian carbon offset projects with real pricing        |
+| **Community Leaderboard** | Anonymous global ranking with footprint distribution chart        |
+| **Smart Dashboard**       | Donut chart · comparison bars vs global/India benchmarks          |
+| **Ranked Tips**           | Personalised actions sorted by CO₂ impact — highest savings first |
+| **Secure Accounts**       | JWT + bcrypt authentication with IP rate limiting                 |
 
 ---
 
@@ -101,7 +111,7 @@ pytest tests/ -v --tb=short
 
 - `IsolationForest(n_estimators=100, contamination=0.15, random_state=42)`
 - Trains on user personal history — not global thresholds
-- Returns per-category z-scores + human-readable explanation
+- Returns per-category z-scores and human-readable explanation
 
 ---
 
