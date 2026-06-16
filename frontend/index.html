@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
     <title>EcoTrack AI — Carbon Footprint Platform</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -60,7 +60,6 @@
         background: rgba(10, 15, 13, 0.9);
         backdrop-filter: blur(12px);
         border-bottom: 1px solid var(--border);
-        flex-wrap: wrap;
         gap: 0.5rem;
       }
       .nav-logo {
@@ -71,6 +70,7 @@
         display: flex;
         align-items: center;
         gap: 0.5rem;
+        flex-shrink: 0;
       }
       .nav-logo span {
         color: var(--text);
@@ -95,6 +95,96 @@
       .nav-tab.active {
         background: var(--surface2);
         color: var(--green);
+      }
+      .nav-tab:focus-visible,
+      .btn-primary:focus-visible,
+      .btn-secondary:focus-visible,
+      .hamburger:focus-visible {
+        outline: 2px solid var(--green);
+        outline-offset: 2px;
+      }
+      /* Hamburger */
+      .hamburger {
+        display: none;
+        flex-direction: column;
+        justify-content: space-between;
+        width: 2rem;
+        height: 1.5rem;
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 0;
+        z-index: 200;
+        flex-shrink: 0;
+      }
+      .ham-line {
+        display: block;
+        width: 100%;
+        height: 2px;
+        background: var(--green);
+        border-radius: 2px;
+        transition: all 0.3s ease;
+        transform-origin: center;
+      }
+      .hamburger.open .ham-line:nth-child(1) {
+        transform: translateY(10px) rotate(45deg);
+      }
+      .hamburger.open .ham-line:nth-child(2) {
+        opacity: 0;
+        transform: scaleX(0);
+      }
+      .hamburger.open .ham-line:nth-child(3) {
+        transform: translateY(-10px) rotate(-45deg);
+      }
+      .nav-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.6);
+        z-index: 98;
+        backdrop-filter: blur(2px);
+      }
+      @media (max-width: 768px) {
+        .hamburger {
+          display: flex;
+          order: 2;
+        }
+        #auth-status {
+          order: 3;
+        }
+        .nav-tabs {
+          display: none;
+          position: fixed;
+          top: 0;
+          left: 0;
+          right: 0;
+          background: var(--surface);
+          border-bottom: 1px solid var(--border);
+          padding: 5rem 1.5rem 1.5rem;
+          flex-direction: column;
+          gap: 0.25rem;
+          z-index: 99;
+          box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+          animation: slideDown 0.25s ease;
+        }
+        .nav-tabs.mobile-open {
+          display: flex;
+        }
+        .nav-tab {
+          width: 100%;
+          text-align: left;
+          padding: 0.75rem 1rem;
+          font-size: 0.95rem;
+        }
+      }
+      @keyframes slideDown {
+        from {
+          opacity: 0;
+          transform: translateY(-10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
       }
       main {
         flex: 1;
@@ -304,7 +394,6 @@
       }
       .step.active .step-dot {
         border-color: var(--green);
-        background: var(--surface2);
       }
       .step.done .step-dot {
         border-color: var(--green);
@@ -564,6 +653,113 @@
         position: relative;
         width: 100%;
       }
+      /* Scanner */
+      .scanner-history-item {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        padding: 0.75rem;
+        background: var(--surface2);
+        border-radius: var(--radius);
+        border: 1px solid var(--border);
+      }
+      @keyframes scanLine {
+        0% {
+          top: 0;
+        }
+        100% {
+          top: 100%;
+        }
+      }
+      /* Gamification */
+      .badge-card {
+        background: var(--surface2);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 1.25rem;
+        text-align: center;
+        transition: all 0.2s;
+        position: relative;
+        overflow: hidden;
+      }
+      .badge-card.earned {
+        border-color: var(--green);
+        background: linear-gradient(
+          135deg,
+          var(--surface2),
+          rgba(34, 197, 94, 0.05)
+        );
+      }
+      .badge-card.locked {
+        opacity: 0.45;
+        filter: grayscale(0.8);
+      }
+      .badge-card.earned:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 20px rgba(34, 197, 94, 0.2);
+      }
+      .badge-icon {
+        font-size: 2.5rem;
+        margin-bottom: 0.5rem;
+        display: block;
+      }
+      .badge-name {
+        font-family: var(--font-disp);
+        font-size: 0.85rem;
+        font-weight: 600;
+        margin-bottom: 0.25rem;
+      }
+      .badge-req {
+        font-size: 0.72rem;
+        color: var(--text-dim);
+        line-height: 1.4;
+      }
+      .badge-xp {
+        font-size: 0.72rem;
+        color: var(--green);
+        font-weight: 600;
+        margin-top: 0.5rem;
+      }
+      .badge-earned-tick {
+        position: absolute;
+        top: 0.5rem;
+        right: 0.5rem;
+        width: 1.25rem;
+        height: 1.25rem;
+        background: var(--green);
+        color: #000;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.65rem;
+        font-weight: 700;
+      }
+      .challenge-item {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        padding: 0.875rem;
+        background: var(--surface2);
+        border-radius: var(--radius);
+        border: 1px solid var(--border);
+      }
+      .challenge-item.completed {
+        border-color: var(--green);
+      }
+      .challenge-progress-track {
+        flex: 1;
+        height: 6px;
+        background: var(--surface);
+        border-radius: 3px;
+        overflow: hidden;
+      }
+      .challenge-progress-fill {
+        height: 100%;
+        background: var(--green);
+        border-radius: 3px;
+        transition: width 0.8s ease;
+      }
       @keyframes fadeIn {
         from {
           opacity: 0;
@@ -589,22 +785,25 @@
       .pulse {
         animation: pulse 1.5s infinite;
       }
-      @keyframes scanLine {
-        0% {
-          top: 0;
+      @keyframes badgePop {
+        from {
+          opacity: 0;
+          transform: scale(0.5) rotate(-10deg);
         }
-        100% {
-          top: 100%;
+        to {
+          opacity: 1;
+          transform: scale(1) rotate(0);
         }
       }
-      .scanner-history-item {
-        display: flex;
-        align-items: center;
-        gap: 1rem;
-        padding: 0.75rem;
-        background: var(--surface2);
-        border-radius: var(--radius);
-        border: 1px solid var(--border);
+      @keyframes confettiAnim {
+        0% {
+          transform: translateY(-10px) rotate(0deg);
+          opacity: 1;
+        }
+        100% {
+          transform: translateY(100vh) rotate(720deg);
+          opacity: 0;
+        }
       }
       .text-green {
         color: var(--green);
@@ -627,18 +826,6 @@
       .mt-4 {
         margin-top: 2rem;
       }
-      .flex {
-        display: flex;
-      }
-      .items-center {
-        align-items: center;
-      }
-      .gap-1 {
-        gap: 0.5rem;
-      }
-      .gap-2 {
-        gap: 1rem;
-      }
       .hidden {
         display: none !important;
       }
@@ -650,55 +837,132 @@
           transition: none !important;
         }
       }
-    
-      /* ── Hamburger & Mobile Nav ──────────────────────────────── */
-      .hamburger { display:none; flex-direction:column; justify-content:space-between; width:2rem; height:1.5rem; background:none; border:none; cursor:pointer; padding:0; z-index:200; }
-      .ham-line { display:block; width:100%; height:2px; background:var(--green); border-radius:2px; transition:all 0.3s ease; transform-origin:center; }
-      .hamburger.open .ham-line:nth-child(1) { transform:translateY(10px) rotate(45deg); }
-      .hamburger.open .ham-line:nth-child(2) { opacity:0; transform:scaleX(0); }
-      .hamburger.open .ham-line:nth-child(3) { transform:translateY(-10px) rotate(-45deg); }
-      .nav-overlay { position:fixed; inset:0; background:rgba(0,0,0,0.6); z-index:98; backdrop-filter:blur(2px); }
-      @media (max-width:768px) {
-        nav { flex-wrap:nowrap; }
-        .hamburger { display:flex; order:2; }
-        #auth-status { order:3; }
-        .nav-tabs { display:none; position:fixed; top:0; left:0; right:0; background:var(--surface); border-bottom:1px solid var(--border); padding:5rem 1.5rem 1.5rem; flex-direction:column; gap:0.25rem; z-index:99; box-shadow:0 8px 32px rgba(0,0,0,0.4); animation:slideDown 0.25s ease; }
-        .nav-tabs.mobile-open { display:flex; }
-        .nav-tab { width:100%; text-align:left; padding:0.75rem 1rem; font-size:0.95rem; }
-      }
-      @keyframes slideDown { from { opacity:0; transform:translateY(-10px); } to { opacity:1; transform:translateY(0); } }
-      .nav-tab:focus-visible, .hamburger:focus-visible, .btn-primary:focus-visible, .btn-secondary:focus-visible { outline:2px solid var(--green); outline-offset:2px; }
-
     </style>
   </head>
   <body>
     <div class="app" id="app">
-            <nav role="navigation" aria-label="Main navigation">
-        <div class="nav-logo" aria-label="EcoTrack AI home">🌿 EcoTrack<span> AI</span></div>
-
-        <button class="hamburger" id="hamburger-btn" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="nav-menu" onclick="toggleMobileNav()">
-          <span class="ham-line"></span>
-          <span class="ham-line"></span>
-          <span class="ham-line"></span>
-        </button>
-
-        <div class="nav-tabs" role="tablist" id="nav-menu">
-          <button class="nav-tab active" role="tab" onclick="showPage('home')"      id="tab-home"      aria-selected="true">Home</button>
-          <button class="nav-tab"        role="tab" onclick="showPage('calculate')" id="tab-calculate" aria-selected="false">Calculator</button>
-          <button class="nav-tab"        role="tab" onclick="showPage('dashboard')" id="tab-dashboard" aria-selected="false">Dashboard</button>
-          <button class="nav-tab"        role="tab" onclick="showPage('tips')"      id="tab-tips"      aria-selected="false">Tips</button>
-          <button class="nav-tab"        role="tab" onclick="showPage('insights')"  id="tab-insights"  aria-selected="false">&#129302; AI Insights</button>
-          <button class="nav-tab"        role="tab" onclick="showPage('chat')"      id="tab-chat"      aria-selected="false">&#128172; EcoBot</button>
-          <button class="nav-tab"        role="tab" onclick="showPage('scanner')"   id="tab-scanner"   aria-selected="false">&#128247; AR Scanner</button>
-          <button class="nav-tab"        role="tab" onclick="showPage('offset')"    id="tab-offset"    aria-selected="false">&#127807; Offset</button>
-          <button class="nav-tab"        role="tab" onclick="showPage('community')" id="tab-community" aria-selected="false">&#127758; Community</button>
+      <nav role="navigation" aria-label="Main navigation">
+        <div class="nav-logo" aria-label="EcoTrack AI home">
+          🌿 EcoTrack<span> AI</span>
         </div>
-
+        <button
+          class="hamburger"
+          id="hamburger-btn"
+          aria-label="Toggle navigation menu"
+          aria-expanded="false"
+          aria-controls="nav-menu"
+          onclick="toggleMobileNav()"
+        >
+          <span class="ham-line"></span><span class="ham-line"></span
+          ><span class="ham-line"></span>
+        </button>
+        <div class="nav-tabs" role="tablist" id="nav-menu">
+          <button
+            class="nav-tab active"
+            role="tab"
+            onclick="navTo('home')"
+            id="tab-home"
+            aria-selected="true"
+          >
+            Home
+          </button>
+          <button
+            class="nav-tab"
+            role="tab"
+            onclick="navTo('calculate')"
+            id="tab-calculate"
+            aria-selected="false"
+          >
+            Calculator
+          </button>
+          <button
+            class="nav-tab"
+            role="tab"
+            onclick="navTo('dashboard')"
+            id="tab-dashboard"
+            aria-selected="false"
+          >
+            Dashboard
+          </button>
+          <button
+            class="nav-tab"
+            role="tab"
+            onclick="navTo('tips')"
+            id="tab-tips"
+            aria-selected="false"
+          >
+            Tips
+          </button>
+          <button
+            class="nav-tab"
+            role="tab"
+            onclick="navTo('insights')"
+            id="tab-insights"
+            aria-selected="false"
+          >
+            &#129302; AI Insights
+          </button>
+          <button
+            class="nav-tab"
+            role="tab"
+            onclick="navTo('chat')"
+            id="tab-chat"
+            aria-selected="false"
+          >
+            &#128172; EcoBot
+          </button>
+          <button
+            class="nav-tab"
+            role="tab"
+            onclick="navTo('scanner')"
+            id="tab-scanner"
+            aria-selected="false"
+          >
+            &#128247; AR Scanner
+          </button>
+          <button
+            class="nav-tab"
+            role="tab"
+            onclick="navTo('offset')"
+            id="tab-offset"
+            aria-selected="false"
+          >
+            &#127807; Offset
+          </button>
+          <button
+            class="nav-tab"
+            role="tab"
+            onclick="navTo('community')"
+            id="tab-community"
+            aria-selected="false"
+          >
+            &#127758; Community
+          </button>
+          <button
+            class="nav-tab"
+            role="tab"
+            onclick="navTo('badges')"
+            id="tab-badges"
+            aria-selected="false"
+          >
+            &#127942; Badges
+          </button>
+        </div>
         <div id="auth-status">
-          <button class="btn-primary" onclick="showPage('login')" style="padding:0.4rem 1rem;font-size:0.875rem">Sign in</button>
+          <button
+            class="btn-primary"
+            onclick="navTo('login')"
+            style="padding: 0.4rem 1rem; font-size: 0.875rem"
+          >
+            Sign in
+          </button>
         </div>
       </nav>
-      <div id="nav-overlay" class="nav-overlay hidden" onclick="closeMobileNav()"></div>
+      <div
+        id="nav-overlay"
+        class="nav-overlay hidden"
+        onclick="closeMobileNav()"
+      ></div>
 
       <main id="main-content" role="main">
         <!-- HOME -->
@@ -714,18 +978,10 @@
               Measure your annual CO₂ footprint, predict your trajectory with
               ML, and get personalized actions ranked by impact.
             </p>
-            <button
-              class="btn-primary"
-              onclick="showPage('calculate')"
-              aria-label="Start carbon footprint calculator"
-            >
+            <button class="btn-primary" onclick="navTo('calculate')">
               Calculate My Footprint →
             </button>
-            <button
-              class="btn-secondary"
-              onclick="showPage('dashboard')"
-              aria-label="View sample dashboard"
-            >
+            <button class="btn-secondary" onclick="navTo('dashboard')">
               View Dashboard
             </button>
           </div>
@@ -814,8 +1070,8 @@
               id="step-0"
               role="listitem"
               onclick="goStep(0)"
-              aria-label="Step 1: Transport"
               tabindex="0"
+              aria-label="Step 1 Transport"
             >
               <div class="step-dot">🚗</div>
               <span class="step-label">Transport</span>
@@ -826,8 +1082,8 @@
               id="step-1"
               role="listitem"
               onclick="goStep(1)"
-              aria-label="Step 2: Home Energy"
               tabindex="0"
+              aria-label="Step 2 Home"
             >
               <div class="step-dot">🏠</div>
               <span class="step-label">Home</span>
@@ -838,8 +1094,8 @@
               id="step-2"
               role="listitem"
               onclick="goStep(2)"
-              aria-label="Step 3: Diet"
               tabindex="0"
+              aria-label="Step 3 Diet"
             >
               <div class="step-dot">🥗</div>
               <span class="step-label">Diet</span>
@@ -850,8 +1106,8 @@
               id="step-3"
               role="listitem"
               onclick="goStep(3)"
-              aria-label="Step 4: Shopping"
               tabindex="0"
+              aria-label="Step 4 Shopping"
             >
               <div class="step-dot">🛍️</div>
               <span class="step-label">Shopping</span>
@@ -871,9 +1127,7 @@
                   min="0"
                   max="5000"
                   value="100"
-                /><small class="text-dim" style="font-size: 0.75rem"
-                  >0 if you don't drive</small
-                >
+                />
               </div>
               <div class="form-group">
                 <label for="fuel-type">Car fuel type</label
@@ -886,7 +1140,7 @@
                 </select>
               </div>
               <div class="form-group">
-                <label for="flights">Flights per year (total trips)</label
+                <label for="flights">Flights per year</label
                 ><input
                   type="number"
                   id="flights"
@@ -906,7 +1160,7 @@
                 />
               </div>
             </div>
-            <button class="btn-primary" onclick="nextStep(1)">
+            <button class="btn-primary" onclick="goStep(1)">
               Next: Home Energy →
             </button>
           </div>
@@ -917,46 +1171,36 @@
             </div>
             <div class="grid-2">
               <div class="form-group">
-                <label for="electricity">Electricity use per month (kWh)</label
+                <label for="electricity">Electricity per month (kWh)</label
                 ><input
                   type="number"
                   id="electricity"
                   min="0"
                   max="10000"
                   value="200"
-                /><small class="text-dim" style="font-size: 0.75rem"
-                  >Check your electricity bill</small
-                >
+                />
               </div>
               <div class="form-group">
-                <label for="gas">Gas use per month (units)</label
+                <label for="gas">Gas per month (units)</label
                 ><input type="number" id="gas" min="0" max="5000" value="20" />
               </div>
               <div class="form-group">
-                <label for="people">Number of people in home</label
+                <label for="people">People in home</label
                 ><input type="number" id="people" min="1" max="20" value="4" />
               </div>
               <div class="form-group">
                 <label for="solar">Renewable energy % (0 if none)</label
-                ><input
-                  type="number"
-                  id="solar"
-                  min="0"
-                  max="100"
-                  value="0"
-                /><small class="text-dim" style="font-size: 0.75rem"
-                  >0% = grid power only, 100% = full solar</small
-                >
+                ><input type="number" id="solar" min="0" max="100" value="0" />
               </div>
             </div>
             <button
               class="btn-secondary"
-              onclick="nextStep(0)"
+              onclick="goStep(0)"
               style="margin-right: 0.5rem"
             >
               ← Back
             </button>
-            <button class="btn-primary" onclick="nextStep(2)">
+            <button class="btn-primary" onclick="goStep(2)">
               Next: Diet →
             </button>
           </div>
@@ -969,10 +1213,8 @@
               <div class="form-group">
                 <label for="diet-type">Diet type</label
                 ><select id="diet-type">
-                  <option value="omnivore">Omnivore (eat everything)</option>
-                  <option value="pescatarian">
-                    Pescatarian (fish, no meat)
-                  </option>
+                  <option value="omnivore">Omnivore</option>
+                  <option value="pescatarian">Pescatarian</option>
                   <option value="vegetarian">Vegetarian</option>
                   <option value="vegan">Vegan</option>
                 </select>
@@ -990,22 +1232,20 @@
               <div class="form-group">
                 <label for="food-waste">Food waste level</label
                 ><select id="food-waste">
-                  <option value="low">Low — I rarely throw food away</option>
-                  <option value="medium" selected>
-                    Medium — Sometimes waste food
-                  </option>
-                  <option value="high">High — Regularly throw food away</option>
+                  <option value="low">Low</option>
+                  <option value="medium" selected>Medium</option>
+                  <option value="high">High</option>
                 </select>
               </div>
             </div>
             <button
               class="btn-secondary"
-              onclick="nextStep(1)"
+              onclick="goStep(1)"
               style="margin-right: 0.5rem"
             >
               ← Back
             </button>
-            <button class="btn-primary" onclick="nextStep(3)">
+            <button class="btn-primary" onclick="goStep(3)">
               Next: Shopping →
             </button>
           </div>
@@ -1026,8 +1266,7 @@
                 />
               </div>
               <div class="form-group">
-                <label for="electronics"
-                  >New electronics per year (phones, laptops etc.)</label
+                <label for="electronics">New electronics per year</label
                 ><input
                   type="number"
                   id="electronics"
@@ -1037,8 +1276,7 @@
                 />
               </div>
               <div class="form-group">
-                <label for="online-orders"
-                  >Online shopping orders per month</label
+                <label for="online-orders">Online orders per month</label
                 ><input
                   type="number"
                   id="online-orders"
@@ -1050,16 +1288,12 @@
             </div>
             <button
               class="btn-secondary"
-              onclick="nextStep(2)"
+              onclick="goStep(2)"
               style="margin-right: 0.5rem"
             >
               ← Back
             </button>
-            <button
-              class="btn-primary"
-              onclick="calculateFootprint()"
-              id="calc-btn"
-            >
+            <button class="btn-primary" onclick="doCalculate()" id="calc-btn">
               Calculate My Footprint 🌍
             </button>
           </div>
@@ -1080,7 +1314,7 @@
             <p class="text-dim" style="margin-bottom: 1.5rem">
               Complete the calculator first to see your dashboard.
             </p>
-            <button class="btn-primary" onclick="showPage('calculate')">
+            <button class="btn-primary" onclick="navTo('calculate')">
               Go to Calculator →
             </button>
           </div>
@@ -1112,32 +1346,29 @@
               <div class="stat-card">
                 <span class="stat-label">🚗 Transport</span
                 ><span class="stat-value" id="stat-transport">—</span
-                ><span class="stat-sub">kg CO₂e / year</span>
+                ><span class="stat-sub">kg CO₂e/year</span>
               </div>
               <div class="stat-card">
                 <span class="stat-label">🏠 Home Energy</span
                 ><span class="stat-value" id="stat-home">—</span
-                ><span class="stat-sub">kg CO₂e / year</span>
+                ><span class="stat-sub">kg CO₂e/year</span>
               </div>
               <div class="stat-card">
                 <span class="stat-label">🥗 Diet</span
                 ><span class="stat-value" id="stat-diet">—</span
-                ><span class="stat-sub">kg CO₂e / year</span>
+                ><span class="stat-sub">kg CO₂e/year</span>
               </div>
               <div class="stat-card">
                 <span class="stat-label">🛍️ Shopping</span
                 ><span class="stat-value" id="stat-shopping">—</span
-                ><span class="stat-sub">kg CO₂e / year</span>
+                ><span class="stat-sub">kg CO₂e/year</span>
               </div>
             </div>
             <div class="grid-2 mt-3">
               <div class="card">
                 <h3 class="card-title">Footprint Breakdown</h3>
                 <div class="chart-container" style="height: 250px">
-                  <canvas
-                    id="donut-chart"
-                    aria-label="Pie chart showing carbon footprint by category"
-                  ></canvas>
+                  <canvas id="donut-chart"></canvas>
                 </div>
               </div>
               <div class="card">
@@ -1149,10 +1380,7 @@
               <h3 class="card-title">6-Month Forecast (ML Model)</h3>
               <div id="trend-tag" style="margin-bottom: 1rem"></div>
               <div class="chart-container" style="height: 220px">
-                <canvas
-                  id="forecast-chart"
-                  aria-label="Line chart showing predicted carbon footprint over next 6 months"
-                ></canvas>
+                <canvas id="forecast-chart"></canvas>
               </div>
             </div>
             <div class="card mt-3">
@@ -1188,7 +1416,7 @@
             </p>
             <button
               class="btn-primary"
-              onclick="showPage('calculate')"
+              onclick="navTo('calculate')"
               style="margin-top: 1rem"
             >
               Start Calculator →
@@ -1210,8 +1438,7 @@
                 —
               </p>
               <p class="text-dim" style="margin-top: 0.25rem">
-                kg CO₂e you could save per year by following these
-                recommendations
+                kg CO₂e you could save per year
               </p>
             </div>
           </div>
@@ -1249,10 +1476,10 @@
               Sign in
             </button>
             <p class="auth-switch">
-              No account? <a onclick="showPage('register')">Register free →</a>
+              No account? <a onclick="navTo('register')">Register free →</a>
             </p>
             <p class="auth-switch" style="margin-top: 0.5rem">
-              <a onclick="showPage('home')" style="color: var(--text-dim)"
+              <a onclick="navTo('home')" style="color: var(--text-dim)"
                 >← Continue without signing in</a
               >
             </p>
@@ -1291,8 +1518,7 @@
             </div>
             <div class="form-group">
               <label for="reg-password"
-                >Password
-                <span class="text-dim">(min 8 characters)</span></label
+                >Password <span class="text-dim">(min 8 chars)</span></label
               ><input
                 type="password"
                 id="reg-password"
@@ -1308,8 +1534,7 @@
               Create account →
             </button>
             <p class="auth-switch">
-              Already have an account?
-              <a onclick="showPage('login')">Sign in</a>
+              Already have an account? <a onclick="navTo('login')">Sign in</a>
             </p>
           </div>
         </section>
@@ -1341,7 +1566,7 @@
             </p>
             <button
               class="btn-primary"
-              onclick="showPage('calculate')"
+              onclick="navTo('calculate')"
               style="margin-top: 1rem"
             >
               Start Calculator &#8594;
@@ -1390,10 +1615,7 @@
                     Your Footprint Summary
                   </h3>
                 </div>
-                <p
-                  id="ai-summary"
-                  style="line-height: 1.7; color: var(--text)"
-                ></p>
+                <p id="ai-summary" style="line-height: 1.7"></p>
               </div>
               <div
                 class="card"
@@ -1568,8 +1790,7 @@
                 >
                   Hi! I&#39;m EcoBot &#127807; — your personal carbon coach.
                   Complete the calculator first so I can give you personalised
-                  advice, or ask me anything about carbon footprints, climate
-                  science, or sustainable living!
+                  advice, or ask me anything about carbon footprints!
                 </div>
               </div>
             </div>
@@ -1631,7 +1852,6 @@
                 onclick="sendChatMessage()"
                 id="chat-send-btn"
                 style="padding: 0.65rem 1.25rem; white-space: nowrap"
-                aria-label="Send message"
               >
                 Send &#8594;
               </button>
@@ -1641,7 +1861,6 @@
               style="font-size: 0.75rem; margin-top: 0.5rem; text-align: center"
             >
               Powered by Groq LLaMA &#8226; Responses may not be 100% accurate
-              &#8212; verify important decisions
             </p>
           </div>
         </section>
@@ -1683,7 +1902,6 @@
               ></video>
               <canvas id="scanner-canvas" style="display: none"></canvas>
               <div
-                id="scanner-overlay"
                 style="
                   position: absolute;
                   inset: 0;
@@ -1739,7 +1957,6 @@
                     "
                   ></div>
                   <div
-                    id="scan-line"
                     style="
                       position: absolute;
                       left: 0;
@@ -1818,7 +2035,6 @@
                   <button
                     class="btn-secondary"
                     onclick="addScannedToFootprint()"
-                    id="add-scan-btn"
                   >
                     + Add to Footprint
                   </button>
@@ -1837,7 +2053,6 @@
               <button
                 class="btn-secondary"
                 onclick="stopScanner()"
-                id="stop-scan-btn"
                 style="flex: 1"
               >
                 &#9632; Stop
@@ -1898,7 +2113,7 @@
           </div>
         </section>
 
-        <!-- OFFSET MARKETPLACE -->
+        <!-- OFFSET -->
         <section
           id="page-offset"
           class="hidden fade-in"
@@ -1925,7 +2140,7 @@
             </p>
             <button
               class="btn-primary"
-              onclick="showPage('calculate')"
+              onclick="navTo('calculate')"
               style="margin-top: 1rem"
             >
               Start Calculator &#8594;
@@ -1980,7 +2195,7 @@
           </div>
         </section>
 
-        <!-- COMMUNITY LEADERBOARD -->
+        <!-- COMMUNITY -->
         <section
           id="page-community"
           class="hidden fade-in"
@@ -1999,22 +2214,6 @@
           <p class="text-dim" style="margin-bottom: 2rem">
             See how your footprint compares globally. All data is anonymous.
           </p>
-          <div
-            id="community-no-data"
-            class="text-center hidden"
-            style="padding: 2rem"
-          >
-            <p class="text-dim">
-              Complete the calculator to see your community rank.
-            </p>
-            <button
-              class="btn-primary"
-              onclick="showPage('calculate')"
-              style="margin-top: 1rem"
-            >
-              Calculate First &#8594;
-            </button>
-          </div>
           <div
             id="community-rank-card"
             class="card hidden"
@@ -2091,10 +2290,283 @@
             </div>
           </div>
         </section>
+
+        <!-- BADGES & GAMIFICATION -->
+        <section
+          id="page-badges"
+          class="hidden fade-in"
+          role="tabpanel"
+          aria-labelledby="tab-badges"
+        >
+          <h2
+            style="
+              font-family: var(--font-disp);
+              font-size: 1.75rem;
+              margin-bottom: 0.5rem;
+            "
+          >
+            &#127942; Badges & Achievements
+          </h2>
+          <p class="text-dim" style="margin-bottom: 2rem">
+            Earn badges by reducing your carbon footprint. Every action counts.
+          </p>
+          <div
+            class="card"
+            style="
+              margin-bottom: 1.5rem;
+              border-color: rgba(34, 197, 94, 0.3);
+              background: linear-gradient(
+                135deg,
+                var(--surface),
+                var(--surface2)
+              );
+            "
+          >
+            <div
+              style="
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                flex-wrap: wrap;
+                gap: 1rem;
+              "
+            >
+              <div>
+                <div
+                  style="
+                    font-size: 0.75rem;
+                    color: var(--text-dim);
+                    text-transform: uppercase;
+                    letter-spacing: 0.1em;
+                    margin-bottom: 0.25rem;
+                  "
+                >
+                  Your Level
+                </div>
+                <div
+                  id="player-level"
+                  style="
+                    font-family: var(--font-disp);
+                    font-size: 2rem;
+                    font-weight: 700;
+                    color: var(--green);
+                  "
+                >
+                  Eco Newcomer
+                </div>
+                <div
+                  id="player-xp"
+                  style="
+                    font-size: 0.875rem;
+                    color: var(--text-dim);
+                    margin-top: 0.25rem;
+                  "
+                >
+                  0 XP
+                </div>
+              </div>
+              <div style="text-align: right">
+                <div
+                  style="
+                    font-size: 0.75rem;
+                    color: var(--text-dim);
+                    margin-bottom: 0.5rem;
+                  "
+                >
+                  Progress to Next Level
+                </div>
+                <div
+                  style="
+                    width: 200px;
+                    height: 10px;
+                    background: var(--surface2);
+                    border-radius: 5px;
+                    overflow: hidden;
+                  "
+                >
+                  <div
+                    id="xp-bar"
+                    style="
+                      height: 100%;
+                      background: linear-gradient(90deg, var(--green), #86efac);
+                      border-radius: 5px;
+                      transition: width 1s ease;
+                      width: 0%;
+                    "
+                  ></div>
+                </div>
+                <div
+                  id="xp-next"
+                  style="
+                    font-size: 0.75rem;
+                    color: var(--text-dim);
+                    margin-top: 0.25rem;
+                  "
+                >
+                  0 / 100 XP
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="grid-4" style="margin-bottom: 1.5rem">
+            <div class="stat-card" style="text-align: center">
+              <span class="stat-label">&#127942; Badges Earned</span
+              ><span class="stat-value text-green" id="badge-count">0</span
+              ><span class="stat-sub">of 12 total</span>
+            </div>
+            <div class="stat-card" style="text-align: center">
+              <span class="stat-label">&#128293; Current Streak</span
+              ><span
+                class="stat-value"
+                style="color: var(--amber)"
+                id="streak-count"
+                >0</span
+              ><span class="stat-sub">days tracking</span>
+            </div>
+            <div class="stat-card" style="text-align: center">
+              <span class="stat-label">&#9889; Total XP</span
+              ><span
+                class="stat-value"
+                style="color: #a78bfa"
+                id="total-xp-display"
+                >0</span
+              ><span class="stat-sub">experience points</span>
+            </div>
+            <div class="stat-card" style="text-align: center">
+              <span class="stat-label">&#127807; CO₂ Saved</span
+              ><span class="stat-value text-green" id="co2-saved">0</span
+              ><span class="stat-sub">kg vs global avg</span>
+            </div>
+          </div>
+          <div class="card" style="margin-bottom: 1.5rem">
+            <h3
+              style="
+                font-family: var(--font-disp);
+                font-size: 0.9rem;
+                color: var(--text-dim);
+                margin-bottom: 1.25rem;
+                text-transform: uppercase;
+                letter-spacing: 0.08em;
+              "
+            >
+              &#127942; Achievement Badges
+            </h3>
+            <div
+              id="badges-grid"
+              style="
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+                gap: 1rem;
+              "
+            ></div>
+          </div>
+          <div class="card">
+            <h3
+              style="
+                font-family: var(--font-disp);
+                font-size: 0.9rem;
+                color: var(--text-dim);
+                margin-bottom: 1.25rem;
+                text-transform: uppercase;
+                letter-spacing: 0.08em;
+              "
+            >
+              &#9889; Active Challenges
+            </h3>
+            <div
+              id="challenges-list"
+              style="display: flex; flex-direction: column; gap: 0.75rem"
+            ></div>
+          </div>
+        </section>
       </main>
     </div>
 
+    <!-- Badge Modal -->
+    <div
+      id="badge-modal"
+      class="hidden"
+      style="
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.8);
+        z-index: 999;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 1rem;
+      "
+      onclick="closeBadgeModal()"
+    >
+      <div
+        style="
+          background: var(--surface);
+          border: 1px solid var(--green);
+          border-radius: var(--radius-lg);
+          padding: 2.5rem;
+          text-align: center;
+          max-width: 360px;
+          animation: badgePop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        "
+        onclick="event.stopPropagation()"
+      >
+        <div
+          id="modal-badge-icon"
+          style="font-size: 4rem; margin-bottom: 0.75rem"
+        ></div>
+        <div
+          style="
+            font-size: 0.75rem;
+            color: var(--green);
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            margin-bottom: 0.5rem;
+          "
+        >
+          Badge Unlocked!
+        </div>
+        <div
+          id="modal-badge-name"
+          style="
+            font-family: var(--font-disp);
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+          "
+        ></div>
+        <div
+          id="modal-badge-desc"
+          style="
+            color: var(--text-dim);
+            font-size: 0.875rem;
+            margin-bottom: 1rem;
+          "
+        ></div>
+        <div
+          id="modal-badge-xp"
+          style="
+            color: var(--green);
+            font-weight: 600;
+            font-size: 1rem;
+            margin-bottom: 1.5rem;
+          "
+        ></div>
+        <button
+          class="btn-primary"
+          onclick="closeBadgeModal()"
+          style="width: 100%"
+        >
+          Awesome! &#127942;
+        </button>
+      </div>
+    </div>
+
     <script>
+      /* ═══════════════════════════════════════════════════════
+   ECOTRACK AI — Complete Frontend
+   Single source of truth — no duplicate function overrides
+═══════════════════════════════════════════════════════ */
+
       const API_BASE = "https://aaricacoding-ecotrack-ai.hf.space";
       const DEMO_MODE = false;
 
@@ -2109,15 +2581,48 @@
         forecastChart: null,
       };
 
-      /* PAGE NAVIGATION */
-      function showPage(pageName) {
+      /* ── MOBILE NAV ─────────────────────────────────────────────────── */
+      function toggleMobileNav() {
+        const menu = document.getElementById("nav-menu");
+        const btn = document.getElementById("hamburger-btn");
+        const overlay = document.getElementById("nav-overlay");
+        if (menu.classList.contains("mobile-open")) {
+          closeMobileNav();
+        } else {
+          menu.classList.add("mobile-open");
+          btn.classList.add("open");
+          btn.setAttribute("aria-expanded", "true");
+          overlay.classList.remove("hidden");
+          document.body.style.overflow = "hidden";
+        }
+      }
+      function closeMobileNav() {
+        const menu = document.getElementById("nav-menu");
+        const btn = document.getElementById("hamburger-btn");
+        const overlay = document.getElementById("nav-overlay");
+        menu.classList.remove("mobile-open");
+        btn.classList.remove("open");
+        btn.setAttribute("aria-expanded", "false");
+        overlay.classList.add("hidden");
+        document.body.style.overflow = "";
+      }
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") closeMobileNav();
+      });
+
+      /* ── PAGE NAVIGATION — single master function, no overrides ─────── */
+      function navTo(pageName) {
+        closeMobileNav();
+        // Hide all pages
         document
           .querySelectorAll("section[id^='page-']")
           .forEach((s) => s.classList.add("hidden"));
+        // Deactivate all tabs
         document.querySelectorAll(".nav-tab").forEach((t) => {
           t.classList.remove("active");
           t.setAttribute("aria-selected", "false");
         });
+        // Show requested page
         const page = document.getElementById(`page-${pageName}`);
         if (page) page.classList.remove("hidden");
         const tab = document.getElementById(`tab-${pageName}`);
@@ -2126,12 +2631,18 @@
           tab.setAttribute("aria-selected", "true");
         }
         window.scrollTo({ top: 0, behavior: "smooth" });
+        // Page-specific actions
         if (pageName === "insights" && appState.result) loadAIInsights();
         if (pageName === "offset") loadOffsetContent();
         if (pageName === "community") loadCommunityContent();
+        if (pageName === "badges") renderBadgesPage();
+      }
+      // Alias for compatibility
+      function showPage(n) {
+        navTo(n);
       }
 
-      /* STEP NAVIGATION */
+      /* ── STEP NAVIGATION ─────────────────────────────────────────────── */
       function goStep(n) {
         document
           .getElementById(`calc-step-${appState.currentStep}`)
@@ -2147,11 +2658,8 @@
           document.getElementById(`line-${i}`).classList.toggle("done", i < n);
         appState.currentStep = n;
       }
-      function nextStep(n) {
-        goStep(n);
-      }
 
-      /* LOCAL CALCULATION */
+      /* ── LOCAL CARBON CALCULATION ────────────────────────────────────── */
       const EF = {
         car: {
           petrol: 0.192,
@@ -2178,7 +2686,7 @@
         order: 0.5,
       };
 
-      function calcLocalFootprint(f) {
+      function calcLocal(f) {
         const carEm = parseFloat(f.carKm) * 52 * (EF.car[f.fuelType] || 0.192);
         const transitEm = parseFloat(f.transitKm) * 52 * EF.transit;
         const flightEm =
@@ -2236,7 +2744,7 @@
         };
       }
 
-      function forecastFootprint(total) {
+      function forecastLocal(total) {
         const months = [],
           predicted = [],
           now = new Date();
@@ -2271,21 +2779,19 @@
         };
       }
 
-      function generateTips(breakdown) {
+      function genTips(fp) {
         const tips = [];
-        const { transport, home_energy, diet, shopping } = breakdown;
+        const { transport, home_energy, diet, shopping } = fp;
         if (transport > 1500)
           tips.push({
-            category: "transport",
             icon: "🚗",
             title: "Switch to an EV",
-            desc: "EVs cut transport emissions by 70%. India's FAME-II subsidies make this increasingly affordable.",
+            desc: "EVs cut transport emissions by 70%. India FAME-II subsidies help.",
             impact: Math.round(transport * 0.65),
             difficulty: "hard",
           });
         if (transport > 400)
           tips.push({
-            category: "transport",
             icon: "🏠",
             title: "Work from home 2 days/week",
             desc: "Reducing commute by 40% directly cuts car emissions.",
@@ -2294,16 +2800,14 @@
           });
         if (transport > 250)
           tips.push({
-            category: "transport",
             icon: "🚂",
-            title: "Replace one flight with train travel",
+            title: "Replace one flight with train",
             desc: "Delhi-Mumbai by Rajdhani saves ~200kg CO₂ vs flying.",
             impact: 230,
             difficulty: "easy",
           });
         if (home_energy > 600)
           tips.push({
-            category: "home",
             icon: "☀️",
             title: "Install rooftop solar",
             desc: "A 2kW system covers 60-80% of household electricity.",
@@ -2312,16 +2816,14 @@
           });
         if (home_energy > 300)
           tips.push({
-            category: "home",
             icon: "⭐",
             title: "Upgrade to 5-star BEE appliances",
-            desc: "Cuts home energy use by 30-40%. Saves money on bills too.",
+            desc: "Cuts home energy use by 30-40%. Saves money too.",
             impact: Math.round(home_energy * 0.3),
             difficulty: "medium",
           });
         if (diet > 1800)
           tips.push({
-            category: "diet",
             icon: "🥗",
             title: "Try Meatless Mondays",
             desc: "Skipping meat one day a week saves 150-200kg CO₂e annually.",
@@ -2330,28 +2832,26 @@
           });
         if (diet > 2200)
           tips.push({
-            category: "diet",
             icon: "♻️",
             title: "Reduce food waste",
-            desc: "Plan meals weekly, store properly, compost scraps.",
+            desc: "Plan meals, store properly, compost scraps.",
             impact: Math.round(diet * 0.12),
             difficulty: "easy",
           });
         if (shopping > 400)
           tips.push({
-            category: "shopping",
             icon: "👕",
             title: "Buy second-hand clothing",
-            desc: "Fast fashion is one of the most polluting industries.",
+            desc: "10 second-hand items saves ~100kg CO₂ and textile waste.",
             impact: Math.round(shopping * 0.2),
             difficulty: "easy",
           });
         return tips.sort((a, b) => b.impact - a.impact).slice(0, 5);
       }
 
-      /* MAIN CALCULATE */
-      async function calculateFootprint() {
-        const formData = {
+      /* ── MAIN CALCULATE ──────────────────────────────────────────────── */
+      async function doCalculate() {
+        const fd = {
           carKm: document.getElementById("car-km").value,
           fuelType: document.getElementById("fuel-type").value,
           flights: document.getElementById("flights").value,
@@ -2373,7 +2873,7 @@
         await new Promise((r) => setTimeout(r, 600));
         let result;
         if (DEMO_MODE) {
-          result = calcLocalFootprint(formData);
+          result = calcLocal(fd);
         } else {
           try {
             const res = await fetch(
@@ -2383,55 +2883,61 @@
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
                   transport: {
-                    car_km_per_week: parseFloat(formData.carKm),
-                    car_fuel_type: formData.fuelType,
-                    flights_per_year: parseInt(formData.flights),
-                    public_transport_km_per_week: parseFloat(
-                      formData.transitKm,
-                    ),
+                    car_km_per_week: parseFloat(fd.carKm),
+                    car_fuel_type: fd.fuelType,
+                    flights_per_year: parseInt(fd.flights),
+                    public_transport_km_per_week: parseFloat(fd.transitKm),
                   },
                   home_energy: {
-                    electricity_kwh_per_month: parseFloat(formData.electricity),
-                    gas_units_per_month: parseFloat(formData.gas),
-                    num_people_in_home: parseInt(formData.people),
-                    renewable_energy_percent: parseFloat(formData.solar),
+                    electricity_kwh_per_month: parseFloat(fd.electricity),
+                    gas_units_per_month: parseFloat(fd.gas),
+                    num_people_in_home: parseInt(fd.people),
+                    renewable_energy_percent: parseFloat(fd.solar),
                   },
                   diet: {
-                    diet_type: formData.dietType,
-                    meat_meals_per_week: parseFloat(formData.meatMeals),
-                    food_waste_level: formData.wasteLevel,
+                    diet_type: fd.dietType,
+                    meat_meals_per_week: parseFloat(fd.meatMeals),
+                    food_waste_level: fd.wasteLevel,
                   },
                   shopping: {
-                    new_clothes_per_year: parseInt(formData.clothes),
-                    electronics_per_year: parseInt(formData.electronics),
+                    new_clothes_per_year: parseInt(fd.clothes),
+                    electronics_per_year: parseInt(fd.electronics),
                     online_shopping_orders_per_month: parseFloat(
-                      formData.onlineOrders,
+                      fd.onlineOrders,
                     ),
                   },
                   country: "IN",
                 }),
               },
             );
-            if (!res.ok) throw new Error("API error " + res.status);
+            if (!res.ok) throw new Error("API " + res.status);
             result = await res.json();
           } catch (e) {
-            console.warn("API failed, using local:", e);
-            result = calcLocalFootprint(formData);
+            console.warn("API failed, local fallback:", e);
+            result = calcLocal(fd);
           }
         }
-        const forecast = forecastFootprint(result.footprint.total);
-        const tips = generateTips(result.footprint);
+        const forecast = forecastLocal(result.footprint.total);
+        const tips = genTips(result.footprint);
         appState.result = result;
         appState.forecast = forecast;
         appState.tips = tips;
         btn.textContent = "Calculate My Footprint 🌍";
         btn.disabled = false;
+        // Award badges based on form data and result
+        checkBadgesFromForm(fd);
+        checkBadgesFromResult(result);
+        gameState.co2Saved = Math.max(
+          0,
+          Math.round(4000 - result.footprint.total),
+        );
+        saveGameState();
         renderDashboard(result, forecast);
         renderTips(tips, forecast.reduction_potential_kg);
-        showPage("dashboard");
+        navTo("dashboard");
       }
 
-      /* RENDER DASHBOARD */
+      /* ── DASHBOARD RENDER ────────────────────────────────────────────── */
       function renderDashboard(result, forecast) {
         document.getElementById("no-data-msg").classList.add("hidden");
         document.getElementById("dashboard-content").classList.remove("hidden");
@@ -2478,17 +2984,11 @@
             responsive: true,
             maintainAspectRatio: false,
             plugins: {
-              legend: {
-                labels: {
-                  color: "#e8f5e9",
-                  font: { family: "Inter" },
-                  padding: 16,
-                },
-              },
+              legend: { labels: { color: "#e8f5e9", padding: 16 } },
               tooltip: {
                 callbacks: {
-                  label: (ctx) =>
-                    ` ${ctx.label}: ${ctx.parsed.toLocaleString()} kg CO₂e`,
+                  label: (c) =>
+                    ` ${c.label}: ${c.parsed.toLocaleString()} kg CO₂e`,
                 },
               },
             },
@@ -2505,9 +3005,9 @@
           stable: ["➡️ Stable", "#f59e0b"],
           worsening: ["📈 Worsening", "#ef4444"],
         };
-        const [trendText, trendColor] = trends[forecast.trend] || trends.stable;
+        const [tt, tc] = trends[forecast.trend] || trends.stable;
         document.getElementById("trend-tag").innerHTML =
-          `<span style="padding:0.25rem 0.75rem;border-radius:999px;font-size:0.8rem;font-weight:600;background:${trendColor}22;color:${trendColor};border:1px solid ${trendColor}44">${trendText}</span>`;
+          `<span style="padding:0.25rem 0.75rem;border-radius:999px;font-size:0.8rem;font-weight:600;background:${tc}22;color:${tc};border:1px solid ${tc}44">${tt}</span>`;
         appState.forecastChart = new Chart(ctx, {
           type: "line",
           data: {
@@ -2539,29 +3039,25 @@
             plugins: {
               legend: { labels: { color: "#e8f5e9" } },
               tooltip: {
-                callbacks: { label: (ctx) => ` ${ctx.parsed.y} kg CO₂e/month` },
+                callbacks: { label: (c) => ` ${c.parsed.y} kg CO₂e/month` },
               },
             },
           },
         });
       }
 
-      function renderCompareBars(userTotal, globalAvg, indiaAvg) {
-        const maxVal = Math.max(userTotal, globalAvg, 10000);
+      function renderCompareBars(u, g, ia) {
+        const max = Math.max(u, g, 10000);
         const items = [
-          {
-            label: "You",
-            value: userTotal,
-            color: userTotal > globalAvg ? "#ef4444" : "#22c55e",
-          },
-          { label: "Global avg", value: globalAvg, color: "#f59e0b" },
-          { label: "India avg", value: indiaAvg, color: "#60a5fa" },
+          { label: "You", value: u, color: u > g ? "#ef4444" : "#22c55e" },
+          { label: "Global avg", value: g, color: "#f59e0b" },
+          { label: "India avg", value: ia, color: "#60a5fa" },
           { label: "1.5°C target", value: 2300, color: "#a78bfa" },
         ];
         document.getElementById("compare-bars").innerHTML = items
           .map(
-            (item) =>
-              `<div class="compare-bar"><div class="compare-bar-label">${item.label}</div><div class="compare-bar-track"><div class="compare-bar-fill" style="width:${((item.value / maxVal) * 100).toFixed(1)}%;background:${item.color}"></div></div><div class="compare-bar-value" style="color:${item.color}">${item.value.toLocaleString()}</div></div>`,
+            (i) =>
+              `<div class="compare-bar"><div class="compare-bar-label">${i.label}</div><div class="compare-bar-track"><div class="compare-bar-fill" style="width:${((i.value / max) * 100).toFixed(1)}%;background:${i.color}"></div></div><div class="compare-bar-value" style="color:${i.color}">${i.value.toLocaleString()}</div></div>`,
           )
           .join("");
       }
@@ -2582,25 +3078,21 @@
           .join("");
       }
 
-      function renderTips(tips, reductionPotential) {
+      function renderTips(tips, rp) {
         document.getElementById("no-tips-msg").classList.add("hidden");
         document.getElementById("tips-content").classList.remove("hidden");
-        const diffColors = {
-          easy: "#22c55e",
-          medium: "#f59e0b",
-          hard: "#ef4444",
-        };
+        const dc = { easy: "#22c55e", medium: "#f59e0b", hard: "#ef4444" };
         document.getElementById("tips-list").innerHTML = tips
           .map(
-            (tip, i) =>
-              `<div class="tip-card fade-in" style="animation-delay:${i * 0.08}s" role="article" aria-label="${tip.title}"><div class="tip-icon">${tip.icon}</div><div><div class="tip-title">${tip.title}<span class="tip-diff" style="color:${diffColors[tip.difficulty]}">${tip.difficulty}</span></div><div class="tip-desc">${tip.desc}</div><div class="tip-impact">💚 Save ~${tip.impact.toLocaleString()} kg CO₂e/year</div></div></div>`,
+            (t, i) =>
+              `<div class="tip-card fade-in" style="animation-delay:${i * 0.08}s" role="article"><div class="tip-icon">${t.icon}</div><div><div class="tip-title">${t.title}<span class="tip-diff" style="color:${dc[t.difficulty]}">${t.difficulty}</span></div><div class="tip-desc">${t.desc}</div><div class="tip-impact">💚 Save ~${t.impact.toLocaleString()} kg CO₂e/year</div></div></div>`,
           )
           .join("");
         document.getElementById("reduction-potential").textContent =
-          `~${reductionPotential.toLocaleString()} kg CO₂e`;
+          `~${rp.toLocaleString()} kg CO₂e`;
       }
 
-      /* AUTH */
+      /* ── AUTH ────────────────────────────────────────────────────────── */
       async function doLogin() {
         const email = document.getElementById("login-email").value.trim();
         const pass = document.getElementById("login-password").value;
@@ -2615,7 +3107,7 @@
           appState.token = "demo-token";
           appState.userName = email.split("@")[0];
           updateAuthUI();
-          showPage("home");
+          navTo("home");
           return;
         }
         try {
@@ -2625,13 +3117,13 @@
             body: JSON.stringify({ email, password: pass }),
           });
           if (res.ok) {
-            const data = await res.json();
-            appState.token = data.access_token;
+            const d = await res.json();
+            appState.token = d.access_token;
             updateAuthUI();
-            showPage("home");
+            navTo("home");
           } else {
-            const err = await res.json();
-            errEl.textContent = err.detail || "Login failed.";
+            const e = await res.json();
+            errEl.textContent = e.detail || "Login failed.";
             errEl.classList.remove("hidden");
           }
         } catch (e) {
@@ -2660,7 +3152,7 @@
           appState.token = "demo-token";
           appState.userName = name;
           updateAuthUI();
-          showPage("home");
+          navTo("home");
           return;
         }
         try {
@@ -2670,14 +3162,14 @@
             body: JSON.stringify({ name, email, password: pass }),
           });
           if (res.ok) {
-            const data = await res.json();
-            appState.token = data.access_token;
+            const d = await res.json();
+            appState.token = d.access_token;
             appState.userName = name;
             updateAuthUI();
-            showPage("home");
+            navTo("home");
           } else {
-            const err = await res.json();
-            errEl.textContent = err.detail || "Registration failed.";
+            const e = await res.json();
+            errEl.textContent = e.detail || "Registration failed.";
             errEl.classList.remove("hidden");
           }
         } catch (e) {
@@ -2691,55 +3183,44 @@
         if (appState.token) {
           el.innerHTML = `<span class="text-dim" style="font-size:0.875rem;margin-right:0.75rem">👋 ${appState.userName || "User"}</span><button class="btn-secondary" onclick="logout()" style="padding:0.4rem 1rem;font-size:0.875rem">Sign out</button>`;
         } else {
-          el.innerHTML = `<button class="btn-primary" onclick="showPage('login')" style="padding:0.4rem 1rem;font-size:0.875rem">Sign in</button>`;
+          el.innerHTML = `<button class="btn-primary" onclick="navTo('login')" style="padding:0.4rem 1rem;font-size:0.875rem">Sign in</button>`;
         }
       }
-
       function logout() {
         appState.token = null;
         appState.userName = null;
         updateAuthUI();
-        showPage("home");
+        navTo("home");
       }
 
-      /* UTILITIES */
-      function animateNumber(elId, from, to, duration) {
-        const el = document.getElementById(elId);
+      /* ── UTILITIES ───────────────────────────────────────────────────── */
+      function animateNumber(id, from, to, dur) {
+        const el = document.getElementById(id);
         if (!el) return;
         const start = performance.now();
-        function update(now) {
-          const pct = Math.min((now - start) / duration, 1);
+        function u(now) {
+          const p = Math.min((now - start) / dur, 1);
           el.textContent = Math.round(
-            from + (to - from) * (1 - Math.pow(1 - pct, 3)),
+            from + (to - from) * (1 - Math.pow(1 - p, 3)),
           ).toLocaleString();
-          if (pct < 1) requestAnimationFrame(update);
+          if (p < 1) requestAnimationFrame(u);
         }
-        requestAnimationFrame(update);
+        requestAnimationFrame(u);
       }
-
-      document.addEventListener("DOMContentLoaded", () => {
-        showPage("home");
-        updateAuthUI();
-      });
-
-      /* ═══════════════════════════════════════════════════
-         AI INSIGHTS
-      ═══════════════════════════════════════════════════ */
-      const chatHistory = [];
-
-      function getDominantCategory(fp) {
-        const cats = {
+      function getDom(fp) {
+        const c = {
           transport: fp.transport,
           "home energy": fp.home_energy,
           diet: fp.diet,
           shopping: fp.shopping,
         };
-        return Object.entries(cats).sort((a, b) => b[1] - a[1])[0][0];
+        return Object.entries(c).sort((a, b) => b[1] - a[1])[0][0];
       }
-      function getMaxCategory(fp) {
+      function getMax(fp) {
         return Math.max(fp.transport, fp.home_energy, fp.diet, fp.shopping);
       }
 
+      /* ── AI INSIGHTS ─────────────────────────────────────────────────── */
       async function loadAIInsights() {
         if (!appState.result) return;
         document.getElementById("no-insights-msg").classList.add("hidden");
@@ -2751,16 +3232,16 @@
           if (DEMO_MODE) {
             await new Promise((r) => setTimeout(r, 1200));
             renderInsights({
-              summary: `Your annual footprint of ${fp.total.toLocaleString()} kg CO₂e places you ${fp.total > 4000 ? "above" : "below"} the global average of 4,000 kg. Your biggest driver is ${getDominantCategory(fp)} at ${Math.round((getMaxCategory(fp) / fp.total) * 100)}% of your total emissions.`,
-              dominant_category: getDominantCategory(fp),
-              key_insight: `If you reduced your ${getDominantCategory(fp)} emissions by just 30%, you would save ${Math.round(getMaxCategory(fp) * 0.3).toLocaleString()} kg CO₂e — equivalent to planting ${Math.round((getMaxCategory(fp) * 0.3) / 21)} trees annually.`,
+              summary: `Your annual footprint of ${fp.total.toLocaleString()} kg CO₂e places you ${fp.total > 4000 ? "above" : "below"} the global average of 4,000 kg. Your biggest driver is ${getDom(fp)} at ${Math.round((getMax(fp) / fp.total) * 100)}% of your total emissions.`,
+              dominant_category: getDom(fp),
+              key_insight: `Reducing your ${getDom(fp)} emissions by 30% would save ${Math.round(getMax(fp) * 0.3).toLocaleString()} kg CO₂e — equivalent to planting ${Math.round((getMax(fp) * 0.3) / 21)} trees annually.`,
               action_plan: [
-                `1. Target ${getDominantCategory(fp)} first — it's your highest-impact area.`,
+                `1. Target ${getDom(fp)} first — highest impact area.`,
                 "2. Set a monthly tracking reminder — users who measure reduce 23% more.",
-                "3. Share your target with one person — social commitment increases follow-through by 65%.",
+                "3. Share your target with one person — social commitment increases follow-through 65%.",
               ],
               motivational_close:
-                "Every kilogram matters. The fact that you measured means you're already ahead of 90% of people.",
+                "Every kilogram matters. Measuring means you're already ahead of 90% of people.",
             });
           } else {
             const res = await fetch(`${API_BASE}/api/insights/analyze`, {
@@ -2776,16 +3257,10 @@
             renderInsights(await res.json());
           }
           const history = Array.from({ length: 6 }, (_, i) => ({
-            transport:
-              fp.transport *
-              (1 + (5 - i) * 0.015 + (Math.random() - 0.5) * 0.05),
-            home_energy:
-              fp.home_energy *
-              (1 + (5 - i) * 0.01 + (Math.random() - 0.5) * 0.04),
-            diet:
-              fp.diet * (1 + (5 - i) * 0.012 + (Math.random() - 0.5) * 0.03),
-            shopping:
-              fp.shopping * (1 + (5 - i) * 0.02 + (Math.random() - 0.5) * 0.06),
+            transport: fp.transport * (1 + (5 - i) * 0.015),
+            home_energy: fp.home_energy * (1 + (5 - i) * 0.01),
+            diet: fp.diet * (1 + (5 - i) * 0.012),
+            shopping: fp.shopping * (1 + (5 - i) * 0.02),
             total: fp.total * (1 + (5 - i) * 0.013),
           }));
           if (!DEMO_MODE) {
@@ -2797,66 +3272,67 @@
             if (ar.ok) renderAnomaly(await ar.json());
           }
         } catch (e) {
-          console.warn("AI Insights error:", e);
+          console.warn("Insights error:", e);
           document.getElementById("insights-loading").classList.add("hidden");
         }
       }
 
-      function renderInsights(data) {
+      function renderInsights(d) {
         document.getElementById("insights-loading").classList.add("hidden");
         document.getElementById("insights-result").classList.remove("hidden");
-        document.getElementById("ai-summary").textContent = data.summary;
-        document.getElementById("ai-key-insight").textContent =
-          data.key_insight;
-        document.getElementById("ai-action-plan").innerHTML = data.action_plan
+        document.getElementById("ai-summary").textContent = d.summary;
+        document.getElementById("ai-key-insight").textContent = d.key_insight;
+        document.getElementById("ai-action-plan").innerHTML = d.action_plan
           .map(
-            (step, i) =>
-              `<div style="display:flex;gap:1rem;padding:0.875rem;background:var(--surface2);border-radius:var(--radius);margin-bottom:0.75rem;align-items:flex-start"><div style="width:1.75rem;height:1.75rem;background:var(--green);color:#000;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.8rem;flex-shrink:0">${i + 1}</div><p style="line-height:1.6;font-size:0.9rem;margin:0">${step.replace(/^\d+\.\s*/, "")}</p></div>`,
+            (s, i) =>
+              `<div style="display:flex;gap:1rem;padding:0.875rem;background:var(--surface2);border-radius:var(--radius);margin-bottom:0.75rem;align-items:flex-start"><div style="width:1.75rem;height:1.75rem;background:var(--green);color:#000;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.8rem;flex-shrink:0">${i + 1}</div><p style="line-height:1.6;font-size:0.9rem;margin:0">${s.replace(/^\d+\.\s*/, "")}</p></div>`,
           )
           .join("");
         document.getElementById("ai-motivational").textContent =
-          `"${data.motivational_close}"`;
+          `"${d.motivational_close}"`;
       }
 
-      function renderAnomaly(data) {
-        if (!data.is_anomaly && data.flagged_categories.length === 0) return;
+      function renderAnomaly(d) {
+        if (!d.is_anomaly && d.flagged_categories.length === 0) return;
         document.getElementById("anomaly-card").classList.remove("hidden");
         document.getElementById("anomaly-explanation").textContent =
-          data.explanation;
-        const catLabels = {
+          d.explanation;
+        const cl = {
           transport: "🚗 Transport",
           home_energy: "🏠 Home",
           diet: "🥗 Diet",
           shopping: "🛍️ Shopping",
         };
         document.getElementById("anomaly-zscores").innerHTML = Object.entries(
-          data.z_scores,
+          d.z_scores,
         )
           .map(([cat, z]) => {
-            const flagged = data.flagged_categories.includes(cat);
-            const color = z > 2 ? "#ef4444" : z > 1 ? "#f59e0b" : "#22c55e";
-            return `<div style="background:var(--surface2);border:1px solid ${flagged ? color : "var(--border)"};border-radius:var(--radius);padding:0.75rem;text-align:center"><div style="font-size:0.75rem;color:var(--text-dim);margin-bottom:0.25rem">${catLabels[cat]}</div><div style="font-family:var(--font-disp);font-size:1.1rem;color:${color};font-weight:700">${z > 0 ? "+" : ""}${z}σ</div></div>`;
+            const f = d.flagged_categories.includes(cat);
+            const c = z > 2 ? "#ef4444" : z > 1 ? "#f59e0b" : "#22c55e";
+            return `<div style="background:var(--surface2);border:1px solid ${f ? c : "var(--border)"};border-radius:var(--radius);padding:0.75rem;text-align:center"><div style="font-size:0.75rem;color:var(--text-dim);margin-bottom:0.25rem">${cl[cat]}</div><div style="font-family:var(--font-disp);font-size:1.1rem;color:${c};font-weight:700">${z > 0 ? "+" : ""}${z}σ</div></div>`;
           })
           .join("");
       }
 
-      /* ECOBOT */
+      /* ── ECOBOT ──────────────────────────────────────────────────────── */
+      const chatHistory = [];
+
       async function sendChatMessage() {
         const input = document.getElementById("chat-input");
         const msg = input.value.trim();
         if (!msg) return;
         input.value = "";
-        appendChatMessage("user", msg);
+        appendMsg("user", msg);
         chatHistory.push({ role: "user", content: msg });
         const btn = document.getElementById("chat-send-btn");
         btn.disabled = true;
         btn.textContent = "...";
-        const typingId = appendTypingIndicator();
+        const tid = appendTyping();
         try {
-          let replyText;
+          let reply;
           if (DEMO_MODE) {
             await new Promise((r) => setTimeout(r, 800));
-            replyText = generateLocalReply(msg, appState.result?.footprint);
+            reply = localReply(msg, appState.result?.footprint);
           } else {
             const res = await fetch(`${API_BASE}/api/insights/chat`, {
               method: "POST",
@@ -2866,15 +3342,16 @@
                 footprint_context: appState.result?.footprint || null,
               }),
             });
-            if (!res.ok) throw new Error("API error");
-            replyText = (await res.json()).reply;
+            if (!res.ok) throw new Error("API");
+            reply = (await res.json()).reply;
           }
-          removeTypingIndicator(typingId);
-          appendChatMessage("assistant", replyText);
-          chatHistory.push({ role: "assistant", content: replyText });
+          removeTyping(tid);
+          appendMsg("assistant", reply);
+          chatHistory.push({ role: "assistant", content: reply });
+          awardBadge("ecobot_chat");
         } catch (e) {
-          removeTypingIndicator(typingId);
-          appendChatMessage(
+          removeTyping(tid);
+          appendMsg(
             "assistant",
             "Sorry, I couldn't reach the server. Check your connection and try again.",
           );
@@ -2889,78 +3366,67 @@
         sendChatMessage();
       }
 
-      function appendChatMessage(role, text) {
-        const container = document.getElementById("chat-messages");
+      function appendMsg(role, text) {
+        const c = document.getElementById("chat-messages");
         const isBot = role === "assistant";
-        const wrapper = document.createElement("div");
-        wrapper.style.cssText = `display:flex;gap:0.75rem;align-items:flex-start;${isBot ? "" : "flex-direction:row-reverse"}`;
-        const avatar = document.createElement("div");
-        avatar.style.cssText =
+        const w = document.createElement("div");
+        w.style.cssText = `display:flex;gap:0.75rem;align-items:flex-start;${isBot ? "" : "flex-direction:row-reverse"}`;
+        const av = document.createElement("div");
+        av.style.cssText =
           "width:2rem;height:2rem;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:0.9rem;";
-        avatar.style.background = isBot
+        av.style.background = isBot
           ? "rgba(34,197,94,0.15)"
           : "rgba(255,255,255,0.08)";
-        avatar.textContent = isBot ? "🤖" : "👤";
-        const bubble = document.createElement("div");
-        bubble.style.cssText = `background:${isBot ? "var(--surface2)" : "rgba(34,197,94,0.12)"};border:1px solid ${isBot ? "var(--border)" : "rgba(34,197,94,0.25)"};border-radius:12px;padding:0.75rem 1rem;max-width:85%;line-height:1.6;font-size:0.9rem;white-space:pre-wrap`;
-        bubble.textContent = text;
-        wrapper.appendChild(avatar);
-        wrapper.appendChild(bubble);
-        container.appendChild(wrapper);
-        container.scrollTop = container.scrollHeight;
+        av.textContent = isBot ? "🤖" : "👤";
+        const b = document.createElement("div");
+        b.style.cssText = `background:${isBot ? "var(--surface2)" : "rgba(34,197,94,0.12)"};border:1px solid ${isBot ? "var(--border)" : "rgba(34,197,94,0.25)"};border-radius:12px;padding:0.75rem 1rem;max-width:85%;line-height:1.6;font-size:0.9rem;white-space:pre-wrap`;
+        b.textContent = text;
+        w.appendChild(av);
+        w.appendChild(b);
+        c.appendChild(w);
+        c.scrollTop = c.scrollHeight;
       }
 
-      function appendTypingIndicator() {
-        const container = document.getElementById("chat-messages");
-        const id = "typing-" + Date.now();
-        const div = document.createElement("div");
-        div.id = id;
-        div.style.cssText =
+      function appendTyping() {
+        const c = document.getElementById("chat-messages");
+        const id = "t" + Date.now();
+        const d = document.createElement("div");
+        d.id = id;
+        d.style.cssText =
           "display:flex;gap:0.75rem;align-items:center;opacity:0.6";
-        div.innerHTML =
+        d.innerHTML =
           '<div style="width:2rem;height:2rem;background:rgba(34,197,94,0.15);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.9rem">🤖</div><div style="background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:0.75rem 1rem;font-size:0.9rem" class="pulse">EcoBot is thinking...</div>';
-        container.appendChild(div);
-        container.scrollTop = container.scrollHeight;
+        c.appendChild(d);
+        c.scrollTop = c.scrollHeight;
         return id;
       }
-
-      function removeTypingIndicator(id) {
-        const el = document.getElementById(id);
-        if (el) el.remove();
+      function removeTyping(id) {
+        const e = document.getElementById(id);
+        if (e) e.remove();
       }
 
-      function generateLocalReply(msg, fp) {
+      function localReply(msg, fp) {
         const m = msg.toLowerCase();
         if (
           fp &&
-          (m.includes("biggest") ||
-            m.includes("most") ||
-            m.includes("drive") ||
-            m.includes("worst"))
+          (m.includes("biggest") || m.includes("most") || m.includes("drive"))
         ) {
-          const dom = getDominantCategory(fp);
-          return `Your biggest driver is ${dom} at ${Math.round(getMaxCategory(fp))} kg CO₂e/year — that's ${Math.round((getMaxCategory(fp) / fp.total) * 100)}% of your total.`;
+          const dom = getDom(fp);
+          return `Your biggest driver is ${dom} at ${Math.round(getMax(fp))} kg CO₂e/year — ${Math.round((getMax(fp) / fp.total) * 100)}% of your total.`;
         }
-        if (m.includes("transport") || m.includes("car") || m.includes("driv"))
-          return "Transport is often the fastest win. Switching to an EV, working from home 2 days/week, or replacing one domestic flight with train travel can cut transport emissions by 25-70%.";
-        if (m.includes("solar") || m.includes("renewab"))
-          return "In India, a 2kW rooftop solar system costs ₹1-1.5L and covers 60-80% of average household electricity. Payback is typically 5-7 years.";
-        if (
-          m.includes("vegan") ||
-          m.includes("vegetar") ||
-          m.includes("diet") ||
-          m.includes("meat")
-        )
-          return "Diet is significant — switching from omnivore to vegan saves ~1,000 kg CO₂e/year. Lentils (dal) produce 20× less CO₂ per gram of protein than beef.";
+        if (m.includes("transport") || m.includes("car"))
+          return "Transport wins you the fastest. EV, WFH 2 days, or one fewer flight can cut 25-70%.";
+        if (m.includes("solar"))
+          return "A 2kW rooftop system in India costs ₹1-1.5L and covers 60-80% of electricity. 5-7 year payback.";
+        if (m.includes("vegan") || m.includes("diet") || m.includes("meat"))
+          return "Going vegan saves ~1,000 kg CO₂e/year vs omnivore. Lentils produce 20× less CO₂ per gram of protein than beef.";
         if (m.includes("offset"))
-          return "Look for Gold Standard certified projects — reforestation or clean cookstoves in India. Cost is typically $10-25 per tonne.";
-        return "Great question! Ask me about your specific categories — transport, home energy, diet, or shopping — and I'll give you concrete, India-relevant advice.";
+          return "Look for Gold Standard certified projects — reforestation in India costs $5-8/tonne. Offsets supplement, not replace, real reductions.";
+        return "Ask me about any specific category — transport, home energy, diet, or shopping — and I'll give you concrete India-relevant advice.";
       }
 
-      /* ═══════════════════════════════════════════════════
-         AR CARBON SCANNER
-      ═══════════════════════════════════════════════════ */
-      const PRODUCT_CARBON_DB = {
+      /* ── AR SCANNER ──────────────────────────────────────────────────── */
+      const PCARBON = {
         food_meat: {
           name: "Meat Product",
           icon: "🥩",
@@ -2977,7 +3443,7 @@
           name: "Vegetable/Fruit",
           icon: "🥦",
           kg: 0.4,
-          tip: "Great choice — low carbon food",
+          tip: "Great low carbon food choice",
         },
         food_snack: {
           name: "Packaged Snack",
@@ -3028,12 +3494,10 @@
           tip: "Ask the manufacturer about their carbon footprint",
         },
       };
-
-      const BARCODE_MAP = {
+      const BMAP = {
         890: "food_snack",
         893: "food_beverage",
         "00": "food_snack",
-        "01": "food_snack",
         "02": "food_meat",
         "03": "food_dairy",
         "04": "food_veg",
@@ -3051,65 +3515,51 @@
         75: "food_beverage",
         80: "food_snack",
         84: "clothing_jeans",
-        87: "food_snack",
       };
 
       let scannerStream = null,
         scannerInterval = null,
         scannedHistory = [],
-        lastScannedProduct = null;
-
-      function getCategoryFromBarcode(b) {
-        return (
-          BARCODE_MAP[b.substring(0, 3)] ||
-          BARCODE_MAP[b.substring(0, 2)] ||
-          "unknown"
-        );
+        lastScanned = null;
+      function getCat(b) {
+        return BMAP[b.substring(0, 3)] || BMAP[b.substring(0, 2)] || "unknown";
       }
 
       async function startScanner() {
         try {
-          const video = document.getElementById("scanner-video");
+          const v = document.getElementById("scanner-video");
           scannerStream = await navigator.mediaDevices.getUserMedia({
-            video: {
-              facingMode: "environment",
-              width: { ideal: 1280 },
-              height: { ideal: 720 },
-            },
+            video: { facingMode: "environment" },
           });
-          video.srcObject = scannerStream;
-          await video.play();
+          v.srcObject = scannerStream;
+          await v.play();
           document.getElementById("start-scan-btn").textContent =
             "📷 Scanning...";
           document.getElementById("start-scan-btn").disabled = true;
           if ("BarcodeDetector" in window) {
-            const detector = new BarcodeDetector({
-              formats: ["ean_13", "ean_8", "upc_a", "upc_e", "code_128"],
+            const det = new BarcodeDetector({
+              formats: ["ean_13", "ean_8", "upc_a", "code_128"],
             });
             scannerInterval = setInterval(async () => {
-              const canvas = document.getElementById("scanner-canvas");
-              const ctx = canvas.getContext("2d");
-              canvas.width = video.videoWidth;
-              canvas.height = video.videoHeight;
-              ctx.drawImage(video, 0, 0);
-              const barcodes = await detector.detect(canvas).catch(() => []);
-              if (barcodes.length > 0) {
+              const cv = document.getElementById("scanner-canvas");
+              const cx = cv.getContext("2d");
+              cv.width = v.videoWidth;
+              cv.height = v.videoHeight;
+              cx.drawImage(v, 0, 0);
+              const bc = await det.detect(cv).catch(() => []);
+              if (bc.length > 0) {
                 stopScanner();
-                lookupBarcode(barcodes[0].rawValue);
+                lookupBarcode(bc[0].rawValue);
               }
             }, 500);
           } else {
             setTimeout(() => {
               stopScanner();
-              alert(
-                "BarcodeDetector not supported on this browser/device. Please use manual entry below.",
-              );
+              alert("BarcodeDetector not supported. Use manual entry below.");
             }, 3000);
           }
         } catch (e) {
-          alert(
-            "Camera access denied or unavailable. Please use manual barcode entry below.",
-          );
+          alert("Camera access denied. Please use manual barcode entry below.");
         }
       }
 
@@ -3127,61 +3577,58 @@
         document.getElementById("start-scan-btn").disabled = false;
       }
 
-      function lookupBarcode(barcode) {
-        if (!barcode || barcode.length < 6) {
+      function lookupBarcode(b) {
+        if (!b || b.length < 6) {
           alert("Please enter a valid barcode (at least 6 digits)");
           return;
         }
-        const category = getCategoryFromBarcode(barcode);
-        const product = PRODUCT_CARBON_DB[category];
-        lastScannedProduct = { ...product, barcode };
+        const p = PCARBON[getCat(b)];
+        lastScanned = { ...p, barcode: b };
         document
           .getElementById("scan-result-overlay")
           .classList.remove("hidden");
-        document.getElementById("scan-product-icon").textContent = product.icon;
-        document.getElementById("scan-product-name").textContent = product.name;
-        document.getElementById("scan-carbon-value").textContent = product.kg;
+        document.getElementById("scan-product-icon").textContent = p.icon;
+        document.getElementById("scan-product-name").textContent = p.name;
+        document.getElementById("scan-carbon-value").textContent = p.kg;
         document.getElementById("scan-carbon-context").textContent =
-          `Equivalent to driving ${Math.round(product.kg / 0.192)} km in a petrol car · ${product.tip}`;
-        scannedHistory.unshift({ ...product, barcode, scannedAt: new Date() });
+          `Equivalent to driving ${Math.round(p.kg / 0.192)} km in a petrol car · ${p.tip}`;
+        scannedHistory.unshift({ ...p, barcode: b });
         if (scannedHistory.length > 5) scannedHistory.pop();
         renderScanHistory();
+        awardBadge("scanner_used");
       }
 
       function renderScanHistory() {
         const el = document.getElementById("scan-history");
-        if (scannedHistory.length === 0) {
+        if (!scannedHistory.length) {
           el.innerHTML =
             '<p class="text-dim" style="font-size:0.875rem;text-align:center">No products scanned yet</p>';
           return;
         }
         el.innerHTML = scannedHistory
           .map(
-            (item) =>
-              `<div class="scanner-history-item"><span style="font-size:1.5rem">${item.icon}</span><div style="flex:1"><div style="font-weight:600;font-size:0.9rem">${item.name}</div><div style="font-size:0.75rem;color:var(--text-dim)">${item.barcode}</div></div><div style="font-family:var(--font-disp);font-weight:700;color:var(--green)">${item.kg} kg</div></div>`,
+            (i) =>
+              `<div class="scanner-history-item"><span style="font-size:1.5rem">${i.icon}</span><div style="flex:1"><div style="font-weight:600;font-size:0.9rem">${i.name}</div><div style="font-size:0.75rem;color:var(--text-dim)">${i.barcode}</div></div><div style="font-family:var(--font-disp);font-weight:700;color:var(--green)">${i.kg} kg</div></div>`,
           )
           .join("");
       }
-
       function restartScanner() {
         document.getElementById("scan-result-overlay").classList.add("hidden");
         startScanner();
       }
       function addScannedToFootprint() {
-        if (!lastScannedProduct) return;
+        if (!lastScanned) return;
         alert(
-          `Added ${lastScannedProduct.name} (${lastScannedProduct.kg} kg CO₂e) to your footprint tracking!`,
+          `Added ${lastScanned.name} (${lastScanned.kg} kg CO₂e) to your footprint tracking!`,
         );
         document.getElementById("scan-result-overlay").classList.add("hidden");
       }
 
-      /* ═══════════════════════════════════════════════════
-         CARBON OFFSET MARKETPLACE
-      ═══════════════════════════════════════════════════ */
-      const OFFSET_PROJECTS = [
+      /* ── OFFSET MARKETPLACE ──────────────────────────────────────────── */
+      const OPROJ = [
         {
           name: "Sundarbans Mangrove Restoration",
-          location: "West Bengal, India",
+          loc: "West Bengal",
           icon: "🌿",
           price: 8,
           rating: "Gold Standard",
@@ -3189,7 +3636,7 @@
         },
         {
           name: "Rajasthan Solar Energy",
-          location: "Rajasthan, India",
+          loc: "Rajasthan",
           icon: "☀️",
           price: 6,
           rating: "Verified Carbon Standard",
@@ -3197,7 +3644,7 @@
         },
         {
           name: "Himalayan Clean Cookstoves",
-          location: "Uttarakhand, India",
+          loc: "Uttarakhand",
           icon: "🔥",
           price: 5,
           rating: "Gold Standard",
@@ -3205,48 +3652,48 @@
         },
         {
           name: "Western Ghats Reforestation",
-          location: "Karnataka, India",
+          loc: "Karnataka",
           icon: "🌳",
           price: 7,
           rating: "Plan Vivo",
           desc: "Plants native species in degraded forest areas of the biodiversity hotspot.",
         },
       ];
-
-      const FREE_ACTIONS = [
+      const OACT = [
         {
           icon: "🌱",
           action: "Plant trees in your neighbourhood",
           saving: "21 kg CO₂/tree/year",
-          difficulty: "easy",
+          diff: "easy",
         },
         {
           icon: "🚲",
           action: "Replace 2 car trips/week with cycling",
           saving: "~200 kg CO₂/year",
-          difficulty: "easy",
+          diff: "easy",
         },
         {
           icon: "☀️",
           action: "Switch to green electricity tariff",
           saving: "Up to 1,200 kg CO₂/year",
-          difficulty: "medium",
+          diff: "medium",
         },
         {
           icon: "🥗",
           action: "Go meat-free one day per week",
           saving: "~180 kg CO₂/year",
-          difficulty: "easy",
+          diff: "easy",
         },
         {
           icon: "♻️",
           action: "Compost food waste at home",
           saving: "~100 kg CO₂/year",
-          difficulty: "easy",
+          diff: "easy",
         },
       ];
 
       function loadOffsetContent() {
+        awardBadge("offset_viewed");
         if (!appState.result) {
           document.getElementById("no-offset-msg").classList.remove("hidden");
           document.getElementById("offset-content").classList.add("hidden");
@@ -3254,28 +3701,24 @@
         }
         document.getElementById("no-offset-msg").classList.add("hidden");
         document.getElementById("offset-content").classList.remove("hidden");
-        const total = appState.result.footprint.total;
+        const t = appState.result.footprint.total;
         document.getElementById("offset-trees").textContent = Math.ceil(
-          total / 21,
+          t / 21,
         ).toLocaleString();
         document.getElementById("offset-cost").textContent =
-          `$${Math.ceil((total / 1000) * 6)} USD`;
-        document.getElementById("offset-projects").innerHTML =
-          OFFSET_PROJECTS.map(
-            (p) =>
-              `<div class="card" style="border-color:rgba(34,197,94,0.2)"><div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:0.75rem"><span style="font-size:2rem">${p.icon}</span><div><div style="font-family:var(--font-disp);font-weight:600">${p.name}</div><div style="font-size:0.75rem;color:var(--text-dim)">${p.location}</div></div></div><p style="font-size:0.85rem;color:var(--text-dim);margin-bottom:0.75rem">${p.desc}</p><div style="display:flex;justify-content:space-between;align-items:center"><span style="font-size:0.75rem;background:rgba(34,197,94,0.1);color:var(--green);padding:0.2rem 0.5rem;border-radius:999px">${p.rating}</span><span style="font-family:var(--font-disp);font-weight:700;color:var(--green)">$${p.price}/tonne</span></div></div>`,
-          ).join("");
-        document.getElementById("free-offset-actions").innerHTML =
-          FREE_ACTIONS.map(
-            (a) =>
-              `<div style="display:flex;align-items:center;gap:1rem;padding:0.75rem;background:var(--surface2);border-radius:var(--radius)"><span style="font-size:1.5rem">${a.icon}</span><div style="flex:1"><div style="font-size:0.9rem;font-weight:500">${a.action}</div><div style="font-size:0.75rem;color:var(--green)">${a.saving}</div></div><span style="font-size:0.7rem;padding:0.15rem 0.5rem;border-radius:999px;background:var(--surface);color:var(--text-dim)">${a.difficulty}</span></div>`,
-          ).join("");
+          `$${Math.ceil((t / 1000) * 6)} USD`;
+        document.getElementById("offset-projects").innerHTML = OPROJ.map(
+          (p) =>
+            `<div class="card" style="border-color:rgba(34,197,94,0.2)"><div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:0.75rem"><span style="font-size:2rem">${p.icon}</span><div><div style="font-family:var(--font-disp);font-weight:600">${p.name}</div><div style="font-size:0.75rem;color:var(--text-dim)">${p.loc}</div></div></div><p style="font-size:0.85rem;color:var(--text-dim);margin-bottom:0.75rem">${p.desc}</p><div style="display:flex;justify-content:space-between;align-items:center"><span style="font-size:0.75rem;background:rgba(34,197,94,0.1);color:var(--green);padding:0.2rem 0.5rem;border-radius:999px">${p.rating}</span><span style="font-family:var(--font-disp);font-weight:700;color:var(--green)">$${p.price}/tonne</span></div></div>`,
+        ).join("");
+        document.getElementById("free-offset-actions").innerHTML = OACT.map(
+          (a) =>
+            `<div style="display:flex;align-items:center;gap:1rem;padding:0.75rem;background:var(--surface2);border-radius:var(--radius)"><span style="font-size:1.5rem">${a.icon}</span><div style="flex:1"><div style="font-size:0.9rem;font-weight:500">${a.action}</div><div style="font-size:0.75rem;color:var(--green)">${a.saving}</div></div><span style="font-size:0.7rem;padding:0.15rem 0.5rem;border-radius:999px;background:var(--surface);color:var(--text-dim)">${a.diff}</span></div>`,
+        ).join("");
       }
 
-      /* ═══════════════════════════════════════════════════
-         COMMUNITY LEADERBOARD
-      ═══════════════════════════════════════════════════ */
-      const COMMUNITY_DATA = [
+      /* ── COMMUNITY LEADERBOARD ───────────────────────────────────────── */
+      const CDATA = [
         { rank: 1, name: "Priya S.", city: "Bengaluru", kg: 1102, badge: "🌟" },
         { rank: 2, name: "Arjun M.", city: "Mumbai", kg: 1245, badge: "🌟" },
         { rank: 3, name: "Meera K.", city: "Chennai", kg: 1380, badge: "🏆" },
@@ -3294,33 +3737,28 @@
         { rank: 10, name: "Aditya V.", city: "Surat", kg: 2280, badge: "🥉" },
       ];
 
+      let distChartInstance = null;
       function loadCommunityContent() {
-        document.getElementById("leaderboard-list").innerHTML =
-          COMMUNITY_DATA.map(
-            (u) =>
-              `<div style="display:flex;align-items:center;gap:1rem;padding:0.75rem;border-bottom:1px solid var(--border)"><div style="width:2rem;text-align:center;font-family:var(--font-disp);font-weight:700;color:${u.rank <= 3 ? "var(--green)" : "var(--text-dim)"}">${u.rank}</div><div style="font-size:1.25rem">${u.badge}</div><div style="flex:1"><div style="font-weight:500;font-size:0.9rem">${u.name}</div><div style="font-size:0.75rem;color:var(--text-dim)">${u.city}</div></div><div style="font-family:var(--font-disp);font-weight:700;color:var(--green)">${u.kg.toLocaleString()} kg</div></div>`,
-          ).join("");
+        document.getElementById("leaderboard-list").innerHTML = CDATA.map(
+          (u) =>
+            `<div style="display:flex;align-items:center;gap:1rem;padding:0.75rem;border-bottom:1px solid var(--border)"><div style="width:2rem;text-align:center;font-family:var(--font-disp);font-weight:700;color:${u.rank <= 3 ? "var(--green)" : "var(--text-dim)"}">${u.rank}</div><div style="font-size:1.25rem">${u.badge}</div><div style="flex:1"><div style="font-weight:500;font-size:0.9rem">${u.name}</div><div style="font-size:0.75rem;color:var(--text-dim)">${u.city}</div></div><div style="font-family:var(--font-disp);font-weight:700;color:var(--green)">${u.kg.toLocaleString()} kg</div></div>`,
+        ).join("");
         if (appState.result) {
-          const userKg = appState.result.footprint.total;
-          const betterThan = COMMUNITY_DATA.filter((u) => u.kg > userKg).length;
-          document.getElementById("community-no-data").classList.add("hidden");
+          const uk = appState.result.footprint.total;
+          const bt = CDATA.filter((u) => u.kg > uk).length;
           document
             .getElementById("community-rank-card")
             .classList.remove("hidden");
           document.getElementById("community-rank-number").textContent =
-            `#${COMMUNITY_DATA.length - betterThan + 1}`;
+            `#${CDATA.length - bt + 1}`;
           document.getElementById("community-rank-text").textContent =
-            `Your ${userKg.toLocaleString()} kg footprint is better than ${Math.round((betterThan / COMMUNITY_DATA.length) * 100)}% of our community`;
-        } else {
-          document
-            .getElementById("community-no-data")
-            .classList.remove("hidden");
+            `Your ${uk.toLocaleString()} kg footprint is better than ${Math.round((bt / CDATA.length) * 100)}% of our community`;
         }
-        if (!document.getElementById("distribution-chart").chart) {
+        if (!distChartInstance) {
           const ctx = document
             .getElementById("distribution-chart")
             .getContext("2d");
-          new Chart(ctx, {
+          distChartInstance = new Chart(ctx, {
             type: "bar",
             data: {
               labels: [
@@ -3350,12 +3788,7 @@
             options: {
               responsive: true,
               maintainAspectRatio: false,
-              plugins: {
-                legend: { display: false },
-                tooltip: {
-                  callbacks: { label: (ctx) => ` ${ctx.parsed.y}% of users` },
-                },
-              },
+              plugins: { legend: { display: false } },
               scales: {
                 x: { ticks: { color: "#6b8f72" }, grid: { color: "#1e3024" } },
                 y: {
@@ -3367,26 +3800,323 @@
           });
         }
       }
-    
-      /* ── Mobile Navigation ──────────────────────────────────── */
-      function toggleMobileNav() {
-        const menu=document.getElementById("nav-menu");
-        const btn=document.getElementById("hamburger-btn");
-        const overlay=document.getElementById("nav-overlay");
-        const isOpen=menu.classList.contains("mobile-open");
-        if(isOpen){closeMobileNav();}
-        else{menu.classList.add("mobile-open");btn.classList.add("open");btn.setAttribute("aria-expanded","true");overlay.classList.remove("hidden");document.body.style.overflow="hidden";}
-      }
-      function closeMobileNav() {
-        const menu=document.getElementById("nav-menu");
-        const btn=document.getElementById("hamburger-btn");
-        const overlay=document.getElementById("nav-overlay");
-        menu.classList.remove("mobile-open");btn.classList.remove("open");btn.setAttribute("aria-expanded","false");overlay.classList.add("hidden");document.body.style.overflow="";
-      }
-      const _origShowPageMobile=showPage;
-      function showPage(name){closeMobileNav();_origShowPageMobile(name);}
-      document.addEventListener("keydown",(e)=>{if(e.key==="Escape")closeMobileNav();});
 
+      /* ── GAMIFICATION ────────────────────────────────────────────────── */
+      const BADGES = [
+        {
+          id: "first_calc",
+          icon: "🌱",
+          name: "First Step",
+          xp: 50,
+          desc: "Calculated your carbon footprint for the first time",
+          req: "Complete the calculator",
+        },
+        {
+          id: "below_global",
+          icon: "🌍",
+          name: "Global Citizen",
+          xp: 100,
+          desc: "Your footprint is below the global average of 4,000 kg",
+          req: "Get below 4,000 kg CO₂e",
+        },
+        {
+          id: "below_india",
+          icon: "🇮🇳",
+          name: "India Champion",
+          xp: 150,
+          desc: "Your footprint is below the India average of 1,800 kg",
+          req: "Get below 1,800 kg CO₂e",
+        },
+        {
+          id: "below_target",
+          icon: "🎯",
+          name: "Climate Hero",
+          xp: 300,
+          desc: "Your footprint is below the IPCC 1.5°C target of 2,300 kg",
+          req: "Get below 2,300 kg CO₂e",
+        },
+        {
+          id: "ev_user",
+          icon: "⚡",
+          name: "EV Pioneer",
+          xp: 200,
+          desc: "Using an electric vehicle — cutting transport emissions by 70%",
+          req: "Select electric car",
+        },
+        {
+          id: "solar_user",
+          icon: "☀️",
+          name: "Solar Warrior",
+          xp: 200,
+          desc: "Using renewable energy — reducing grid dependency",
+          req: "Set renewable % > 0",
+        },
+        {
+          id: "vegan",
+          icon: "🥗",
+          name: "Plant Power",
+          xp: 150,
+          desc: "Following a vegan diet — the lowest carbon diet choice",
+          req: "Select vegan diet",
+        },
+        {
+          id: "low_waste",
+          icon: "♻️",
+          name: "Zero Waster",
+          xp: 100,
+          desc: "Low food waste level — maximising every meal",
+          req: "Set food waste to low",
+        },
+        {
+          id: "scanner_used",
+          icon: "📷",
+          name: "Carbon Detective",
+          xp: 75,
+          desc: "Used the AR scanner to check a product's carbon footprint",
+          req: "Scan a product barcode",
+        },
+        {
+          id: "ecobot_chat",
+          icon: "🤖",
+          name: "AI Student",
+          xp: 50,
+          desc: "Had a conversation with EcoBot about your footprint",
+          req: "Send a message to EcoBot",
+        },
+        {
+          id: "offset_viewed",
+          icon: "🌿",
+          name: "Offset Explorer",
+          xp: 50,
+          desc: "Explored carbon offset options to neutralise your impact",
+          req: "Visit the Offset page",
+        },
+        {
+          id: "streak_7",
+          icon: "🔥",
+          name: "Week Warrior",
+          xp: 200,
+          desc: "Visited EcoTrack 7 days in a row",
+          req: "7-day streak",
+        },
+      ];
+
+      const LEVELS = [
+        { name: "Eco Newcomer", min: 0 },
+        { name: "Green Learner", min: 100 },
+        { name: "Carbon Cutter", min: 250 },
+        { name: "Climate Aware", min: 500 },
+        { name: "Eco Warrior", min: 800 },
+        { name: "Green Champion", min: 1200 },
+        { name: "Climate Hero", min: 1800 },
+        { name: "Earth Guardian", min: 2500 },
+      ];
+
+      let gameState = {
+        earnedBadges: [],
+        totalXP: 0,
+        streak: 0,
+        lastVisit: null,
+        co2Saved: 0,
+      };
+
+      function loadGameState() {
+        try {
+          const s = localStorage.getItem("ecotrack_g");
+          if (s) gameState = { ...gameState, ...JSON.parse(s) };
+        } catch (e) {}
+        const today = new Date().toDateString();
+        const last = gameState.lastVisit;
+        if (!last) {
+          gameState.streak = 1;
+        } else if (last !== today) {
+          const y = new Date(Date.now() - 86400000).toDateString();
+          gameState.streak = last === y ? gameState.streak + 1 : 1;
+        }
+        gameState.lastVisit = today;
+        if (gameState.streak >= 7) awardBadge("streak_7", true);
+        saveGameState();
+      }
+
+      function saveGameState() {
+        try {
+          localStorage.setItem("ecotrack_g", JSON.stringify(gameState));
+        } catch (e) {}
+      }
+
+      function awardBadge(id, silent = false) {
+        if (gameState.earnedBadges.includes(id)) return;
+        const b = BADGES.find((b) => b.id === id);
+        if (!b) return;
+        gameState.earnedBadges.push(id);
+        gameState.totalXP += b.xp;
+        saveGameState();
+        if (!silent) {
+          showBadgeModal(b);
+          spawnConfetti();
+        }
+      }
+
+      function showBadgeModal(b) {
+        document.getElementById("modal-badge-icon").textContent = b.icon;
+        document.getElementById("modal-badge-name").textContent = b.name;
+        document.getElementById("modal-badge-desc").textContent = b.desc;
+        document.getElementById("modal-badge-xp").textContent =
+          `+${b.xp} XP earned!`;
+        document.getElementById("badge-modal").classList.remove("hidden");
+      }
+      function closeBadgeModal() {
+        document.getElementById("badge-modal").classList.add("hidden");
+        renderBadgesPage();
+      }
+
+      function spawnConfetti() {
+        const cols = ["#22c55e", "#86efac", "#f59e0b", "#a78bfa", "#60a5fa"];
+        for (let i = 0; i < 30; i++) {
+          const el = document.createElement("div");
+          el.style.cssText = `position:fixed;top:-10px;left:${Math.random() * 100}vw;width:${6 + Math.random() * 8}px;height:${6 + Math.random() * 8}px;background:${cols[Math.floor(Math.random() * cols.length)]};border-radius:${Math.random() > 0.5 ? "50%" : "2px"};animation:confettiAnim ${1.5 + Math.random() * 2}s linear forwards;z-index:9999;pointer-events:none;`;
+          document.body.appendChild(el);
+          setTimeout(() => el.remove(), 4000);
+        }
+      }
+
+      function getLevel(xp) {
+        let c = LEVELS[0];
+        for (const l of LEVELS) if (xp >= l.min) c = l;
+        return c;
+      }
+      function getNextLevel(xp) {
+        for (const l of LEVELS) if (xp < l.min) return l;
+        return null;
+      }
+
+      function checkBadgesFromResult(r) {
+        if (!r) return;
+        awardBadge("first_calc");
+        if (r.footprint.total < 4000) awardBadge("below_global");
+        if (r.footprint.total < 2300) awardBadge("below_target");
+        if (r.footprint.total < 1800) awardBadge("below_india");
+      }
+
+      function checkBadgesFromForm(fd) {
+        if (fd.fuelType === "electric") awardBadge("ev_user");
+        if (parseFloat(fd.solar) > 0) awardBadge("solar_user");
+        if (fd.dietType === "vegan") awardBadge("vegan");
+        if (fd.wasteLevel === "low") awardBadge("low_waste");
+      }
+
+      function renderBadgesPage() {
+        const xp = gameState.totalXP;
+        const lv = getLevel(xp);
+        const nx = getNextLevel(xp);
+        const pct = nx
+          ? Math.round(((xp - lv.min) / (nx.min - lv.min)) * 100)
+          : 100;
+        document.getElementById("player-level").textContent = lv.name;
+        document.getElementById("player-xp").textContent = `${xp} XP`;
+        document.getElementById("xp-bar").style.width = `${pct}%`;
+        document.getElementById("xp-next").textContent = nx
+          ? `${xp} / ${nx.min} XP`
+          : "Max Level!";
+        document.getElementById("badge-count").textContent =
+          gameState.earnedBadges.length;
+        document.getElementById("streak-count").textContent = gameState.streak;
+        document.getElementById("total-xp-display").textContent = xp;
+        document.getElementById("co2-saved").textContent = gameState.co2Saved;
+        document.getElementById("badges-grid").innerHTML = BADGES.map((b) => {
+          const earned = gameState.earnedBadges.includes(b.id);
+          return `<div class="badge-card ${earned ? "earned" : "locked"}" role="article" aria-label="${b.name} ${earned ? "earned" : "locked"}">
+      ${earned ? '<div class="badge-earned-tick">✓</div>' : ""}
+      <span class="badge-icon">${b.icon}</span>
+      <div class="badge-name">${b.name}</div>
+      <div class="badge-req">${b.req}</div>
+      <div class="badge-xp">+${b.xp} XP${earned ? " ✓" : ""}</div>
+    </div>`;
+        }).join("");
+        const challenges = [
+          {
+            icon: "🌱",
+            title: "First Calculation",
+            desc: "Complete the carbon calculator",
+            target: 1,
+            current: appState.result ? 1 : 0,
+            xp: 50,
+          },
+          {
+            icon: "🌍",
+            title: "Beat Global Average",
+            desc: "Get below 4,000 kg",
+            target: 1,
+            current:
+              appState.result && appState.result.footprint.total < 4000 ? 1 : 0,
+            xp: 100,
+          },
+          {
+            icon: "🎯",
+            title: "Hit 1.5°C Target",
+            desc: "Get below 2,300 kg CO₂e",
+            target: 1,
+            current:
+              appState.result && appState.result.footprint.total < 2300 ? 1 : 0,
+            xp: 300,
+          },
+          {
+            icon: "📷",
+            title: "Scan a Product",
+            desc: "Use the AR scanner",
+            target: 1,
+            current: scannedHistory.length > 0 ? 1 : 0,
+            xp: 75,
+          },
+          {
+            icon: "💬",
+            title: "Chat with EcoBot",
+            desc: "Ask EcoBot a question",
+            target: 1,
+            current: chatHistory.length > 0 ? 1 : 0,
+            xp: 50,
+          },
+          {
+            icon: "🔥",
+            title: "7-Day Streak",
+            desc: "Visit EcoTrack 7 days in a row",
+            target: 7,
+            current: Math.min(gameState.streak, 7),
+            xp: 200,
+          },
+        ];
+        document.getElementById("challenges-list").innerHTML = challenges
+          .map((c) => {
+            const pct = Math.min(Math.round((c.current / c.target) * 100), 100);
+            const done = pct >= 100;
+            return `<div class="challenge-item ${done ? "completed" : ""}">
+      <span style="font-size:1.5rem">${c.icon}</span>
+      <div style="flex:1">
+        <div style="display:flex;justify-content:space-between;margin-bottom:0.35rem">
+          <span style="font-size:0.875rem;font-weight:600">${c.title}</span>
+          <span style="font-size:0.75rem;color:${done ? "var(--green)" : "var(--text-dim)"}">${done ? "✓ Complete" : c.desc}</span>
+        </div>
+        <div class="challenge-progress-track"><div class="challenge-progress-fill" style="width:${pct}%"></div></div>
+        <div style="display:flex;justify-content:space-between;margin-top:0.25rem">
+          <span style="font-size:0.72rem;color:var(--text-dim)">${c.current} / ${c.target}</span>
+          <span style="font-size:0.72rem;color:var(--green)">+${c.xp} XP</span>
+        </div>
+      </div>
+    </div>`;
+          })
+          .join("");
+      }
+
+      /* ── INIT ────────────────────────────────────────────────────────── */
+      document.addEventListener("DOMContentLoaded", () => {
+        navTo("home");
+        updateAuthUI();
+        loadGameState();
+        // Keep HuggingFace space awake
+        setInterval(() => {
+          fetch(`${API_BASE}/health`).catch(() => {});
+        }, 240000);
+      });
     </script>
   </body>
 </html>
