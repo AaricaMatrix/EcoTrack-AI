@@ -2,7 +2,10 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+<meta name="theme-color" content="#0a0f0d"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover,maximum-scale=5.0"/>
 <title>EcoTrack AI — Carbon Footprint Platform</title>
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"/>
 <meta http-equiv="Pragma" content="no-cache"/>
@@ -139,7 +142,181 @@ select option{background:var(--surface)}
 .mt-1{margin-top:0.5rem}.mt-2{margin-top:1rem}.mt-3{margin-top:1.5rem}.mt-4{margin-top:2rem}
 .hidden{display:none!important}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
-</style>
+
+      /* ═══════════════════════════════════════════════════
+         RESPONSIVE — Mobile, Tablet, Desktop
+         Tested for: Android Chrome, iOS Safari, Desktop
+      ═══════════════════════════════════════════════════ */
+
+      /* iOS Safari fix — prevents tap highlight */
+      * { -webkit-tap-highlight-color: transparent; }
+
+      /* iOS Safari fix — prevents auto-zoom on input focus */
+      input, select, textarea {
+        font-size: 16px !important;   /* 16px prevents iOS auto-zoom */
+      }
+
+      /* Touch-friendly tap targets — min 44x44px (Apple HIG) */
+      .nav-tab, .btn-primary, .btn-secondary, .hamburger {
+        min-height: 44px;
+        min-width: 44px;
+      }
+
+      /* Prevent horizontal overflow on mobile */
+      html, body { max-width: 100%; overflow-x: hidden; }
+
+      /* ── Small Mobile (< 480px) ──────────────────────── */
+      @media (max-width: 480px) {
+        main { padding: 1rem; }
+
+        nav { padding: 0.75rem 1rem; }
+
+        .hero { padding: 2rem 0.5rem 1.5rem; }
+        .hero-title { font-size: 2rem; }
+        .hero-sub { font-size: 0.95rem; }
+
+        .btn-primary, .btn-secondary {
+          padding: 0.65rem 1.25rem;
+          font-size: 0.9rem;
+          width: 100%;
+          justify-content: center;
+          margin-left: 0;
+          margin-top: 0.5rem;
+        }
+
+        .card { padding: 1rem; border-radius: var(--radius); }
+
+        .result-number { font-size: 3.5rem; }
+
+        .grid-2, .grid-3, .grid-4 {
+          grid-template-columns: 1fr !important;
+        }
+
+        .steps { gap: 0; }
+        .step-label { font-size: 0.65rem; }
+        .step-dot { width: 2rem; height: 2rem; font-size: 0.85rem; }
+
+        .stat-value { font-size: 1.4rem; }
+
+        /* Scanner full width */
+        #page-scanner > div { max-width: 100%; }
+        #page-chat > div { max-width: 100%; }
+
+        /* Chat input row stack on tiny screens */
+        #page-chat > div > div:last-of-type {
+          flex-direction: column;
+        }
+
+        /* Badges grid 2 columns on mobile */
+        #badges-grid {
+          grid-template-columns: repeat(2, 1fr) !important;
+        }
+
+        /* Anomaly z-scores 2 columns */
+        #anomaly-zscores {
+          grid-template-columns: repeat(2, 1fr) !important;
+        }
+
+        /* Compare bars label shorter */
+        .compare-bar-label { width: 70px; font-size: 0.75rem; }
+        .compare-bar-value { width: 50px; font-size: 0.75rem; }
+
+        /* Auth wrapper full width */
+        .auth-wrapper { margin: 1rem auto; padding: 1.25rem; }
+
+        /* XP bar full width on mobile */
+        #xp-bar { width: 100% !important; }
+        #page-badges .card > div { flex-direction: column !important; align-items: flex-start !important; }
+        #xp-next { text-align: left !important; }
+      }
+
+      /* ── Tablet (481px - 768px) ──────────────────────── */
+      @media (min-width: 481px) and (max-width: 768px) {
+        main { padding: 1.25rem; }
+
+        .hero-title { font-size: 2.5rem; }
+
+        .grid-3 { grid-template-columns: 1fr 1fr !important; }
+        .grid-4 { grid-template-columns: 1fr 1fr !important; }
+
+        #badges-grid {
+          grid-template-columns: repeat(3, 1fr) !important;
+        }
+
+        .btn-secondary { margin-left: 0.5rem; }
+      }
+
+      /* ── Large Mobile / Small Tablet hamburger ───────── */
+      @media (max-width: 900px) {
+        /* Stack hero buttons vertically */
+        .hero .btn-secondary {
+          margin-left: 0;
+          margin-top: 0.75rem;
+          display: flex;
+        }
+
+        /* Result hero smaller padding */
+        .result-hero { padding: 1.5rem 1rem; }
+
+        /* Forecast chart shorter on mobile */
+        .chart-container[style*="220px"] { height: 180px !important; }
+      }
+
+      /* ── iOS Safari specific fixes ───────────────────── */
+      @supports (-webkit-touch-callout: none) {
+        /* iOS Safari bottom safe area */
+        main { padding-bottom: max(2rem, env(safe-area-inset-bottom)); }
+        nav { padding-top: max(1rem, env(safe-area-inset-top)); }
+
+        /* iOS smooth scrolling */
+        #chat-messages { -webkit-overflow-scrolling: touch; }
+
+        /* iOS button appearance reset */
+        button { -webkit-appearance: none; appearance: none; }
+      }
+
+      /* ── Android Chrome specific fixes ──────────────── */
+      @media screen and (-webkit-min-device-pixel-ratio: 0) {
+        select { background-image: none; }
+      }
+
+      /* ── Touch device hover removal ─────────────────── */
+      @media (hover: none) and (pointer: coarse) {
+        /* Remove hover states that don't make sense on touch */
+        .btn-primary:hover { transform: none; }
+        .tip-card:hover { border-color: var(--border); }
+        .badge-card.earned:hover { transform: none; box-shadow: none; }
+
+        /* Larger touch targets for tip cards */
+        .tip-card { padding: 1rem; }
+
+        /* Larger step dots for touch */
+        .step-dot { width: 3rem; height: 3rem; }
+
+        /* Scanner buttons bigger on touch */
+        #start-scan-btn, #stop-scan-btn {
+          padding: 1rem !important;
+          font-size: 1rem !important;
+        }
+      }
+
+      /* ── Desktop (> 1200px) ──────────────────────────── */
+      @media (min-width: 1200px) {
+        #badges-grid {
+          grid-template-columns: repeat(6, 1fr) !important;
+        }
+
+        .nav-tabs { flex-wrap: nowrap; }
+      }
+
+      /* ── Print media ─────────────────────────────────── */
+      @media print {
+        nav, .hamburger, #auth-status, .btn-primary, .btn-secondary { display: none !important; }
+        main { padding: 0; }
+        .card { break-inside: avoid; }
+      }
+
+    </style>
 </head>
 <body>
 <div class="app" id="app">
