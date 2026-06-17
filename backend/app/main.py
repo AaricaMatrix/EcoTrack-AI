@@ -10,7 +10,6 @@ from slowapi.errors import RateLimitExceeded
 from app.core.config import get_settings
 from app.core.database import engine, Base
 from app.routers import auth, carbon, predictions, tips, insights, community
-app.include_router(community.router, prefix="/api/community", tags=["Community"])
 
 settings = get_settings()
 limiter = Limiter(key_func=get_remote_address)
