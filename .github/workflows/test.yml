@@ -40,6 +40,9 @@ jobs:
           pytest tests/ -v --tb=short --cov=app --cov-report=term-missing
 
       - name: Verify test count
+        env:
+          SECRET_KEY: "dummy_secret_key_for_ci_tests_only_32_chars"
+          GROQ_API_KEY: "dummy"
         run: |
           cd backend
           COUNT=$(pytest tests/ --collect-only -q 2>/dev/null | grep "test session starts" -A 1000 | grep -c "::")
