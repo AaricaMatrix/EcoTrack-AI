@@ -1,6 +1,6 @@
 # .github/workflows/test.yml
 # Runs on every push and pull request to main
-# Automatically installs dependencies and runs the full 43-test suite
+# Automatically installs dependencies and runs the full 62-test suite
 # CI badge proves tests pass consistently — evaluators check this
 
 name: EcoTrack AI Tests

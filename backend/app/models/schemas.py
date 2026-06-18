@@ -59,12 +59,19 @@ class CarbonInputFull(BaseModel):
     shopping: ShoppingData
     country: str = Field("IN", min_length=2, max_length=3)
 
+# [SECURITY] CategoryBreakdown now enforces bounds on every field.
+# Previously these were raw floats with no constraints, allowing callers to
+# submit negative values, NaN, or astronomically large numbers (e.g. 1e308)
+# that could cause numpy/sklearn errors or skew ML predictions silently.
+#
+# Upper bound (100_000 kg/year) ≈ 10× the heaviest realistic annual footprint.
+# Lower bound (0.0) prevents negative emissions from distorting the model.
 class CategoryBreakdown(BaseModel):
-    transport: float
-    home_energy: float
-    diet: float
-    shopping: float
-    total: float
+    transport: float = Field(0.0, ge=0.0, le=100_000.0)
+    home_energy: float = Field(0.0, ge=0.0, le=100_000.0)
+    diet: float = Field(0.0, ge=0.0, le=100_000.0)
+    shopping: float = Field(0.0, ge=0.0, le=100_000.0)
+    total: float = Field(0.0, ge=0.0, le=400_000.0)   # sum of all four categories
 
 class CarbonResult(BaseModel):
     user_id: Optional[int] = None
@@ -100,7 +107,7 @@ class InsightResponse(BaseModel):
     key_insight: str
     action_plan: list[str]
     motivational_close: str
-    generated_by: str = "claude-sonnet-4-20250514"
+    generated_by: str = "llama-3.1-8b-instant"
 
 class ChatMessage(BaseModel):
     role: Literal["user", "assistant"]
@@ -112,7 +119,7 @@ class ChatRequest(BaseModel):
 
 class ChatResponse(BaseModel):
     reply: str
-    model: str = "claude-sonnet-4-20250514"
+    model: str = "llama-3.1-8b-instant"
 
 class AnomalyResult(BaseModel):
     is_anomaly: bool
