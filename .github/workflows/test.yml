@@ -45,5 +45,6 @@ jobs:
           GROQ_API_KEY: "dummy"
         run: |
           cd backend
-          COUNT=$(pytest tests/ --collect-only -q 2>/dev/null | grep "test session starts" -A 1000 | grep -c "::")
+          pytest tests/ --collect-only > collect.txt || true
+          COUNT=$(grep -c "::" collect.txt || true)
           echo "Total tests collected: $COUNT"
