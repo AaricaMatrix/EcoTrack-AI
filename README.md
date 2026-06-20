@@ -27,13 +27,21 @@ pinned: false
 ## Challenge Requirements Coverage
 
 ✅ **Carbon Footprint Calculation:** Transport, Home Energy, Diet, and Shopping modules.
+
 ✅ **Carbon Reduction Recommendations:** Ranked tips sorted by CO₂ impact.
+
 ✅ **Machine Learning Forecasting:** 6-month predictive trends using Ridge Regression.
+
 ✅ **AI-Powered Insights:** Groq LLaMA footprint analysis and EcoBot coach.
+
 ✅ **Community Features:** Global anonymous ranking and footprint distribution.
+
 ✅ **Sustainability Awareness:** AR product scanner and offset marketplace
+
 ✅ **Secure Authentication:** Robust JWT lifecycle and password hashing.
+
 ✅ **Accessibility Support:** Semantic HTML5 and ARIA compliant UI.
+
 ✅ **Responsive Design:** Mobile-first dashboard and metrics tracking.
 
 ---
