@@ -13,7 +13,7 @@ from fastapi.testclient import TestClient     # HTTPX-based sync test client for
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-from app.main_hardened import app
+from app.main import app
 from app.core.database import Base, get_db
 
 # ── In-memory SQLite for tests — isolated from dev database ──────────────────

@@ -16,7 +16,7 @@ from slowapi.util import get_remote_address
 from slowapi.errors import RateLimitExceeded
 from app.core.config import get_settings
 from app.core.database import engine, Base
-from app.routers import auth, carbon, predictions, tips, insights
+from app.routers import auth, carbon, predictions, tips, insights, community
 
 settings = get_settings()
 limiter = Limiter(key_func=get_remote_address)
@@ -128,6 +128,7 @@ app.include_router(carbon.router,      prefix="/api/carbon",      tags=["Carbon"
 app.include_router(predictions.router, prefix="/api/predictions", tags=["ML Predictions"])
 app.include_router(tips.router,        prefix="/api/tips",        tags=["Tips"])
 app.include_router(insights.router,    prefix="/api/insights",    tags=["AI Insights"])
+app.include_router(community.router,   prefix="/api/community",   tags=["Community"])
 
 
 @app.get("/", include_in_schema=False)

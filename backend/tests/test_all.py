@@ -28,7 +28,7 @@ from app.services.carbon_calculator import (
     get_percentile,
 )
 from app.services.ml_predictor import predict_future_footprint, generate_tips
-from app.models.schemas_hardened import (
+from app.models.schemas import (
     TransportData, HomeEnergyData, DietData, ShoppingData,
     CarbonInputFull, CategoryBreakdown,
 )
@@ -329,12 +329,12 @@ class TestSecurity:
 # ═══════════════════════════════════════════════════════════════════════════════
 
 from app.services.anomaly_detector import detect_anomaly
-from app.models.schemas_hardened import AnomalyRequest, AnomalyResult
+from app.models.schemas import AnomalyRequest, AnomalyResult
 
 
 def _make_breakdown(transport=2000, home=600, diet=2500, shopping=400):
     """Helper — build a CategoryBreakdown with keyword args for readability."""
-    from app.models.schemas_hardened import CategoryBreakdown
+    from app.models.schemas import CategoryBreakdown
     total = transport + home + diet + shopping
     return CategoryBreakdown(
         transport=float(transport), home_energy=float(home),
@@ -411,7 +411,7 @@ class TestInsightSchemas:
 
     def test_insight_request_valid(self) -> None:
         """InsightRequest must accept valid breakdown + country."""
-        from app.models.schemas_hardened import InsightRequest
+        from app.models.schemas import InsightRequest
         req = InsightRequest(
             footprint=_make_breakdown(2000, 600, 2500, 400),
             country="IN",
@@ -422,13 +422,13 @@ class TestInsightSchemas:
 
     def test_chat_message_empty_content_rejected(self) -> None:
         """ChatMessage with empty content must raise ValidationError."""
-        from app.models.schemas_hardened import ChatMessage
+        from app.models.schemas import ChatMessage
         with pytest.raises(ValidationError):
             ChatMessage(role="user", content="")
 
     def test_chat_request_requires_at_least_one_message(self) -> None:
         """ChatRequest with empty messages list must raise ValidationError."""
-        from app.models.schemas_hardened import ChatRequest, ChatMessage
+        from app.models.schemas import ChatRequest, ChatMessage
         with pytest.raises(ValidationError):
             ChatRequest(messages=[])
 
