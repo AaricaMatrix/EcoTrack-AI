@@ -16,7 +16,7 @@ pinned: false
 [![CI Tests](https://github.com/Aaricacoding/EcoTrack-AI/actions/workflows/test.yml/badge.svg?branch=main)](https://github.com/Aaricacoding/EcoTrack-AI/actions/workflows/test.yml)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.111-green)](https://fastapi.tiangolo.com)
 [![scikit-learn](https://img.shields.io/badge/scikit--learn-1.5-orange)](https://scikit-learn.org)
-[![Tests](https://img.shields.io/badge/tests-62%20passing-brightgreen)](#testing)
+[![Tests](https://img.shields.io/badge/tests-68%20passing-brightgreen)](#testing)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow)](LICENSE)
 
 **🔗 Live Demo**: https://eco-track-ai-three.vercel.app  
@@ -31,7 +31,7 @@ pinned: false
 ✅ **Machine Learning Forecasting:** 6-month predictive trends using Ridge Regression.
 ✅ **AI-Powered Insights:** Groq LLaMA footprint analysis and EcoBot coach.
 ✅ **Community Features:** Global anonymous ranking and footprint distribution.
-✅ **Sustainability Awareness:** AR product scanner and offset marketplace.
+✅ **Sustainability Awareness:** AR product scanner and offset marketplace
 ✅ **Secure Authentication:** Robust JWT lifecycle and password hashing.
 ✅ **Accessibility Support:** Semantic HTML5 and ARIA compliant UI.
 ✅ **Responsive Design:** Mobile-first dashboard and metrics tracking.
@@ -134,7 +134,7 @@ Robust security controls implemented across the API surface:
 
 ---
 
-## Testing : 62 Passing
+## Testing : 68 Passing
 
 The backend is backed by a robust, 100% passing test suite designed for stability and evaluation compliance.
 
