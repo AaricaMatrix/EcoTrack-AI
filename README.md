@@ -13,6 +13,7 @@ pinned: false
 > **Hack2Skill Challenge 3** submission.
 
 [![Python](https://img.shields.io/badge/Python-3.11+-blue)](https://python.org)
+[![CI Tests](https://github.com/Aaricacoding/EcoTrack-AI/actions/workflows/test.yml/badge.svg?branch=main)](https://github.com/Aaricacoding/EcoTrack-AI/actions/workflows/test.yml)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.111-green)](https://fastapi.tiangolo.com)
 [![scikit-learn](https://img.shields.io/badge/scikit--learn-1.5-orange)](https://scikit-learn.org)
 [![Tests](https://img.shields.io/badge/tests-62%20passing-brightgreen)](#testing)
