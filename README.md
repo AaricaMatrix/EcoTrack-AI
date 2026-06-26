@@ -20,7 +20,7 @@ pinned: false
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow)](LICENSE)
 
 **🔗 Live Demo**: https://eco-track-ai-three.vercel.app  
-**⚙️ Backend API**: https://aaricacoding-ecotrack-ai.hf.space
+**⚙️ Backend API**: https://aaricamatrix-ecotrack-ai.hf.space
 
 ---
 
